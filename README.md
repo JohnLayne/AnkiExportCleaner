@@ -1,52 +1,52 @@
-# Anki Export Cleaner
+# Anki Export Cleaner - Excel Integration
 
-A Python utility that cleans and formats Anki flashcard exports for better Excel compatibility while maintaining Anki re-import functionality.
+A Python utility with Excel VBA integration that provides a streamlined workflow for editing Anki flashcard exports directly in Excel with proper encoding handling.
 
 ## 🎯 Purpose
 
-When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTML, tags, deck names, etc.), the resulting `.txt` file contains HTML formatting that makes it difficult to work with in Excel. This script cleans the HTML formatting while preserving all essential data and maintaining compatibility with Anki re-import.
+This branch provides an enhanced workflow that combines the HTML cleaning capabilities of the main branch with direct Excel integration. Users can work in Excel with proper encoding handling and export back to Anki-compatible format with a single click.
 
 ## ✨ Features
 
 - **HTML Content Extraction**: Removes all HTML tags and formatting from content fields
-- **Complete Column Preservation**: Maintains all original Anki columns (GUID, NoteType, Deck, etc.)
-- **Anki Compatibility**: Preserves all required Anki import headers for seamless re-import
-- **Excel-Friendly Output**: Produces clean, tab-separated data perfect for Excel import
-- **Audio Reference Preservation**: Maintains `[sound:filename.mp3]` references for Anki
-- **User-Friendly Interface**: Simple file dialog for selecting input files
-- **Overwrite Protection**: Asks for permission before overwriting existing files
-- **Detailed Logging**: Provides feedback on processing status and any skipped entries
-- **Multiline Record Support**: Handles complex Anki exports with multiline HTML content
-- **Robust Error Handling**: Comprehensive error handling with graceful degradation
-- **Class-Based Architecture**: Clean, maintainable code structure
-- **Type Safety**: Full type hints for better IDE support and code reliability
-- **Modern Python Features**: Uses pathlib, dataclasses, and other modern Python features
+- **Direct Excel Integration**: Convert cleaned files to Excel format for easy editing
+- **Custom Excel Ribbon**: VBA-powered ribbon buttons for import/export operations
+- **Automatic Encoding Handling**: No more manual encoding fixes needed
+- **Complete Column Preservation**: Maintains all original Anki columns
+- **Anki Compatibility**: Preserves all required Anki import headers
+- **Audio Reference Preservation**: Maintains `[sound:filename.mp3]` references
+- **User-Friendly Interface**: Simple file dialogs and Excel ribbon integration
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Python 3.6 or higher
+- Microsoft Excel (with VBA enabled)
 - tkinter (usually included with Python)
-- chardet (for Excel encoding fix utility)
+- chardet (for encoding detection)
+- openpyxl (for Excel file handling)
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository and switch to this branch**:
    ```bash
    git clone https://github.com/JohnLayne/AnkiExportCleaner.git
    cd AnkiExportCleaner
+   git checkout excel-integration
    ```
 
-2. Install dependencies:
+2. **Install dependencies**:
    ```bash
    pip install -r requirements.txt
    ```
 
-3. Run the script:
-   ```bash
-   python anki_cleaner.py
-   ```
+3. **Set up Excel integration**:
+   - Copy `anki_excel_tool.py` to your working directory
+   - Create a new Excel file with macros enabled (.xlsm)
+   - Import the VBA code from `VBA/Module1.bas`
+   - Set up the custom ribbon using `VBA/Ribbon.xml`
+   - See `VBA/README.md` for detailed setup instructions
 
 ### Usage
 
@@ -57,43 +57,38 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
    - Check all boxes (HTML, tags, deck names, etc.)
    - Export the file
 
-2. **Clean the Export**:
-   - Run `anki_cleaner.py`
-   - Select your exported `.txt` file when prompted
-   - The script will create a `-CLEANED.txt` version
+2. **Convert to Excel**:
+   - Run `python anki_excel_tool.py`
+   - Select your exported `.txt` file
+   - The script will create an `.xlsx` file ready for Excel
 
-3. **Import to Excel**:
-   - Open Excel
-   - Go to Data → From Text/CSV
-   - Select your `-CLEANED.txt` file
-   - Choose "Tab" as delimiter
-   - Import the data
+3. **Edit in Excel**:
+   - Open the generated `.xlsx` file
+   - Make your changes in the familiar Excel interface
+   - No encoding issues to worry about
 
-4. **Edit in Excel** (optional):
-   - Make your changes in Excel
-   - **Save As** → Choose "Text (Tab delimited) (*.txt)"
-   - **Set encoding**: Tools → Web Options → Encoding → Unicode (UTF-8)
-   - **Save** the file
-   - **Note**: This preserves diacritics correctly
+4. **Export back to Anki**:
+   - Click the "Export to Anki" button in the custom ribbon
+   - Choose your save location
+   - The file will be automatically converted to Anki-compatible format
 
-5. **Fix Excel Encoding** (recommended):
-   - Run `python fix_excel_encoding.py`
-   - Select your Excel-edited file
-   - The script will detect and fix any encoding issues
-   - Creates a backup of the original file
-
-6. **Re-import to Anki**:
-   - Use the cleaned and encoding-fixed file to re-import to Anki
+5. **Import to Anki**:
+   - Use the exported file to re-import to Anki
    - All formatting, audio references, and diacritics will be preserved
 
 ## 📁 File Structure
 
 ```
-AnkiExportCleaner/
-├── anki_cleaner.py          # Main script (refactored with class-based architecture)
-├── fix_excel_encoding.py    # Excel encoding fix utility (refactored)
-├── requirements.txt         # Dependencies
-├── README.md               # This file
+excel-integration/
+├── anki_excel_tool.py      # Enhanced version with Excel export
+├── excel_encoding_fix.py   # Encoding fix utility (backup)
+├── VBA/                    # VBA code files
+│   ├── Module1.bas         # Main VBA functions
+│   ├── Ribbon.xml          # Custom ribbon definition
+│   └── README.md           # VBA setup instructions
+├── requirements.txt        # Python dependencies
+├── README.md              # This file
+├── DEVELOPMENT.md          # Development status and roadmap
 ├── .gitignore              # Git exclusions
 ├── Croatian_Spices.txt     # Sample input file
 └── Croatian_Spices-CLEANED.txt  # Sample output file
@@ -101,127 +96,82 @@ AnkiExportCleaner/
 
 ## 🔧 How It Works
 
-### Architecture Overview
-The refactored code uses a clean, object-oriented approach:
-- **`AnkiCleaner` class**: Main orchestrator with focused methods
-- **`AnkiRecord` dataclass**: Structured data representation
-- **Constants and configuration**: Centralized configuration management
+### Enhanced Workflow
+1. **HTML Cleaning**: Uses the proven HTML cleaning logic from the main branch
+2. **Excel Conversion**: Converts cleaned data to Excel format with proper formatting
+3. **Excel Editing**: Users work in native Excel format (no encoding issues)
+4. **VBA Export**: Custom ribbon button handles conversion back to Anki format
+5. **Anki Import**: Clean, properly encoded file ready for Anki
+
+### Key Components
+
+#### anki_excel_tool.py
+- **Enhanced AnkiCleaner class**: Adds Excel export functionality
+- **Excel formatting**: Applies proper formatting for better editing experience
+- **Header preservation**: Maintains all Anki import headers
 - **Error handling**: Comprehensive error handling throughout
 
-### Input Format
-The script expects Anki exports with the following structure:
-```
-#separator:tab
-#html:true
-#guid column:1
-#notetype column:2
-#deck column:3
-#tags column:9
-GUID    NoteType    Deck    HTML_Content    English_Content    Audio_Reference    ...
-```
+#### VBA Components
+- **Custom ribbon**: "Import from Anki" and "Export to Anki" buttons
+- **VBA macros**: Handle file conversion and encoding
+- **User-friendly interface**: Simple one-click operations
+- **Encoding handling**: Automatic UTF-8 conversion
 
-### Processing Steps
-1. **Header Preservation**: Collects and preserves all Anki import headers
-2. **Multiline Record Parsing**: Handles complex records that span multiple lines
-3. **HTML Extraction**: Extracts clean text from HTML content while preserving media links
-4. **Field Cleaning**: Removes all HTML formatting while preserving content and audio references
-5. **Output Generation**: Creates a clean, tab-separated file with proper Anki format
-
-### Output Format
-The cleaned file maintains the same structure but with clean text:
-```
-#separator:tab
-#html:true
-#guid column:1
-#notetype column:2
-#deck column:3
-#tags column:9
-GUID    NoteType    Deck    Clean_Content    Clean_English    Audio_Reference    ...
-```
+#### VBA Components
+- **Module1.bas**: Main VBA functions for import/export
+- **Ribbon.xml**: Custom ribbon definition
+- **Error handling**: User-friendly error messages
 
 ## 🛠️ Technical Details
 
 ### Dependencies
-- **Python Standard Library**: Most functionality uses standard library
-- **chardet**: For encoding detection and conversion (required for Excel fix)
-- **tkinter**: For file dialog (included with Python)
-- **pathlib**: For modern path handling
-- **dataclasses**: For structured data representation
-- **typing**: For type hints and better code reliability
+- **Python Standard Library**: Core functionality
+- **openpyxl**: Excel file handling and formatting
+- **chardet**: Encoding detection
+- **tkinter**: File dialogs
+- **pathlib**: Modern path handling
+- **dataclasses**: Structured data representation
 
-### Excel Encoding Issue
-Excel has a known issue with UTF-8 encoding when saving tab-delimited text files:
-- **Problem**: Excel saves files as Windows-1252, UTF-16, or similar encoding instead of UTF-8
-- **Symptom**: Croatian diacritics (č, ć, đ, š, ž) appear as garbled characters or question marks
-- **Solution**: 
-  - **Prevention**: Use "Save As" → "Text (Tab delimited) (*.txt)" with UTF-8 encoding
-  - **Recovery**: Use `fix_excel_encoding.py` to detect and fix encoding issues after Excel editing
-- **Complete Workflow**: The encoding fix script handles any corruption and ensures Anki compatibility
+### Excel Integration
+- **Native Excel format**: No encoding issues during editing
+- **VBA automation**: Streamlined import/export process
+- **Custom ribbon**: Professional integration with Excel
+- **Automatic encoding**: Handles UTF-8 conversion automatically
 
-### Key Classes and Methods
+## 📊 Sample Workflow
 
-#### AnkiCleaner Class
-- `__init__()`: Initialize the cleaner with empty state
-- `clean_text()`: Removes HTML entities and normalizes whitespace
-- `extract_td_content()`: Extracts content from HTML while preserving media links
-- `parse_anki_line()`: Handles multiline records with quoted fields
-- `is_new_record()`: Detects the start of new Anki records
-- `process_record()`: Processes a single record and returns an AnkiRecord object
-- `select_input_file()`: Opens file dialog for input selection
-- `parse_input_file()`: Parses the entire input file
-- `write_output_file()`: Writes the cleaned data to output file
-- `run()`: Main orchestration method with comprehensive error handling
-
-#### AnkiRecord Dataclass
-- `guid`: Unique identifier for the record
-- `note_type`: Type of Anki note
-- `deck`: Deck name
-- `croatian`: Cleaned Croatian content
-- `english`: Cleaned English content
-- `audio`: Audio reference
-- `remaining_fields`: Additional fields (tags, etc.)
-- `to_output_row()`: Converts record to output format
-
-#### ExcelEncodingFixer Class
-- `detect_encoding()`: Detects file encoding using chardet
-- `create_backup()`: Creates backup before modification
-- `convert_encoding()`: Converts file encoding to UTF-8
-- `fix_encoding()`: Main method for fixing encoding issues
-- `select_file()`: File selection with error handling
-- `run()`: Main orchestration method
-
-### Constants and Configuration
-- **Field indices**: Named constants for all field positions
-- **Regex patterns**: Pre-compiled patterns for performance
-- **HTML entities**: Dictionary mapping for entity replacement
-- **File suffixes**: Configurable backup and output suffixes
-
-## 📊 Sample Data
-
-### Before (Raw Anki Export)
+### Step 1: Anki Export
 ```
-v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinima	"<table><tbody><tr><td>(mr)&nbsp;bosiljak</td></tr></tbody></table>"	basil	[sound:bosiljak.mp3]
+Raw Anki export with HTML formatting
+↓
+anki_excel_tool.py
+↓
+Clean Excel file (.xlsx) ready for editing
 ```
 
-### After (Cleaned Output)
+### Step 2: Excel Editing
 ```
-v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinima	(mr) bosiljak	basil	[sound:bosiljak.mp3]
+Open in Excel → Make changes → Save
+(No encoding issues, familiar interface)
+```
+
+### Step 3: Export to Anki
+```
+Click "Export to Anki" ribbon button
+↓
+Anki-compatible .txt file with proper encoding
 ```
 
 ## 🔮 Future Enhancements
 
-- [ ] Command-line interface for batch processing
-- [ ] Support for different Anki note types
-- [ ] CSV output option for direct Excel compatibility
-- [ ] Audio file extraction and management
-- [ ] GUI interface with preview functionality
 - [ ] Batch processing for multiple files
-- [ ] Configuration file for custom field mappings
-- [ ] Progress bar for large files
-- [ ] Backup creation before processing
-- [ ] Unit tests for all components
-- [ ] Logging configuration for debugging
-- [ ] Performance optimization for large files
+- [ ] Advanced Excel formatting options
+- [ ] Custom field validation
+- [ ] Audio file management
+- [ ] Template system for different note types
+- [ ] Integration with Anki Connect API
+- [ ] Cloud storage integration
+- [ ] Multi-language support
 
 ## 🤝 Contributing
 
@@ -231,7 +181,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
+4. Test with various Anki export formats
 5. Submit a pull request
 
 ### Code Style
@@ -239,7 +189,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Use type hints for all functions
 - Add comprehensive docstrings
 - Include error handling for all operations
-- Test with various Anki export formats
+- Test VBA macros thoroughly
 
 ## 📝 License
 
@@ -249,6 +199,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 - Anki community for the excellent flashcard software
 - Python community for the robust standard library
+- Excel VBA community for integration techniques
 - All contributors and users of this tool
 
 ## 📞 Support
@@ -260,4 +211,4 @@ If you encounter any issues or have questions:
 
 ---
 
-**Happy studying! 📚✨** 
+**Happy studying with Excel integration! 📚✨** 
