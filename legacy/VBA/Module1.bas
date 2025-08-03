@@ -1,0 +1,260 @@
+Attribute VB_Name = "Module1"
+Option Explicit
+
+' Constants
+Private Const PYTHON_SCRIPT As String = "anki_excel_tool.py"
+Private Const ANKI_HEADERS As String = "#separator:tab,#html:true,#guid column:1,#notetype column:2,#deck column:3,#tags column:9"
+
+' Main function to import Anki file
+Public Sub ImportFromAnki()
+    On Error GoTo ErrorHandler
+    
+    Dim ankiFile As String
+    Dim excelFile As String
+    Dim pythonPath As String
+    Dim scriptPath As String
+    Dim command As String
+    Dim result As Integer
+    
+    ' Get Anki export file from user
+    ankiFile = Application.GetOpenFilename("Text Files (*.txt),*.txt", , "Select Anki Export File")
+    If ankiFile = "False" Then
+        MsgBox "No file selected. Operation cancelled.", vbInformation
+        Exit Sub
+    End If
+    
+    ' Get Python path
+    pythonPath = GetPythonPath()
+    If pythonPath = "" Then
+        MsgBox "Python not found. Please ensure Python is installed and in your PATH.", vbCritical
+        Exit Sub
+    End If
+    
+    ' Get script path (assume it's in the same directory as the Excel file)
+    scriptPath = ThisWorkbook.Path & "\" & PYTHON_SCRIPT
+    If Dir(scriptPath) = "" Then
+        MsgBox "Python script not found: " & scriptPath & vbCrLf & "Please ensure anki_excel_tool.py is in the same directory as this Excel file.", vbCritical
+        Exit Sub
+    End If
+    
+    ' Generate Excel output path
+    excelFile = Replace(ankiFile, ".txt", "-EXCEL.xlsx")
+    
+    ' Build command
+    command = """" & pythonPath & """ """ & scriptPath & """ """ & ankiFile & """ --excel --output """ & excelFile & """"
+    
+    ' Show progress
+    Application.StatusBar = "Converting Anki file to Excel format..."
+    Application.ScreenUpdating = False
+    
+    ' Execute Python script
+    result = Shell(command, vbNormalFocus)
+    
+    ' Wait a moment for the script to complete
+    Application.Wait Now + TimeValue("00:00:03")
+    
+    ' Check if Excel file was created
+    If Dir(excelFile) <> "" Then
+        ' Open the created Excel file
+        Workbooks.Open excelFile
+        Application.StatusBar = False
+        MsgBox "Anki file successfully converted to Excel format!" & vbCrLf & "File: " & excelFile, vbInformation
+    Else
+        Application.StatusBar = False
+        MsgBox "Error: Excel file was not created. Please check the Python script output.", vbCritical
+    End If
+    
+    Application.ScreenUpdating = True
+    Exit Sub
+    
+ErrorHandler:
+    Application.StatusBar = False
+    Application.ScreenUpdating = True
+    MsgBox "Error during import: " & Err.Description, vbCritical
+End Sub
+
+' Main function to export to Anki format
+Public Sub ExportToAnki()
+    On Error GoTo ErrorHandler
+    
+    Dim outputFile As String
+    Dim currentSheet As Worksheet
+    Dim lastRow As Long
+    Dim lastCol As Long
+    Dim i As Long, j As Long
+    Dim outputData As String
+    Dim cellValue As String
+    
+    ' Get current worksheet
+    Set currentSheet = ActiveSheet
+    
+    ' Get save location
+    outputFile = Application.GetSaveAsFilename(InitialFileName:=currentSheet.Name & "-ANKI.txt", _
+                                             FileFilter:="Text Files (*.txt),*.txt", _
+                                             Title:="Save Anki File As")
+    If outputFile = "False" Then
+        MsgBox "No save location selected. Operation cancelled.", vbInformation
+        Exit Sub
+    End If
+    
+    ' Get data range
+    lastRow = currentSheet.Cells(currentSheet.Rows.Count, 1).End(xlUp).Row
+    lastCol = currentSheet.Cells(1, currentSheet.Columns.Count).End(xlToLeft).Column
+    
+    ' Start building output
+    outputData = ""
+    
+    ' Add Anki headers
+    Dim headers() As String
+    headers = Split(ANKI_HEADERS, ",")
+    For i = 0 To UBound(headers)
+        outputData = outputData & headers(i) & vbCrLf
+    Next i
+    
+    ' Add data rows (skip header row)
+    For i = 2 To lastRow
+        Dim rowData As String
+        rowData = ""
+        
+        For j = 1 To lastCol
+            cellValue = Trim(currentSheet.Cells(i, j).Value)
+            If cellValue = "" Then
+                cellValue = ""
+            End If
+            
+            ' Add tab separator (except for last column)
+            If j < lastCol Then
+                rowData = rowData & cellValue & vbTab
+            Else
+                rowData = rowData & cellValue
+            End If
+        Next j
+        
+        outputData = outputData & rowData & vbCrLf
+    Next i
+    
+    ' Write to file with UTF-8 encoding
+    WriteUTF8File outputFile, outputData
+    
+    MsgBox "File successfully exported to Anki format!" & vbCrLf & "File: " & outputFile, vbInformation
+    Exit Sub
+    
+ErrorHandler:
+    MsgBox "Error during export: " & Err.Description, vbCritical
+End Sub
+
+' Helper function to get Python path
+Private Function GetPythonPath() As String
+    Dim pythonPaths() As String
+    Dim path As Variant
+    Dim testPath As String
+    
+    ' Common Python paths
+    pythonPaths = Split("python.exe,py.exe,python3.exe,py -3", ",")
+    
+    ' Test each path
+    For Each path In pythonPaths
+        testPath = Trim(path)
+        If Shell(testPath & " --version", vbHide) <> 0 Then
+            GetPythonPath = testPath
+            Exit Function
+        End If
+    Next path
+    
+    ' If not found, return empty string
+    GetPythonPath = ""
+End Function
+
+' Helper function to write UTF-8 file
+Private Sub WriteUTF8File(filePath As String, content As String)
+    Dim fileNum As Integer
+    Dim utf8BOM() As Byte
+    
+    ' UTF-8 BOM
+    utf8BOM = Array(&HEF, &HBB, &HBF)
+    
+    ' Open file for binary write
+    fileNum = FreeFile
+    Open filePath For Binary As #fileNum
+    
+    ' Write UTF-8 BOM
+    Put #fileNum, , utf8BOM
+    
+    ' Write content
+    Put #fileNum, , content
+    
+    Close #fileNum
+End Sub
+
+' Function to validate Anki format
+Public Sub ValidateAnkiFormat()
+    Dim currentSheet As Worksheet
+    Dim lastRow As Long
+    Dim i As Long
+    Dim errors As String
+    Dim errorCount As Long
+    
+    Set currentSheet = ActiveSheet
+    lastRow = currentSheet.Cells(currentSheet.Rows.Count, 1).End(xlUp).Row
+    errors = ""
+    errorCount = 0
+    
+    ' Check each row (skip header)
+    For i = 2 To lastRow
+        ' Check for required fields
+        If Trim(currentSheet.Cells(i, 1).Value) = "" Then
+            errors = errors & "Row " & i & ": Missing GUID" & vbCrLf
+            errorCount = errorCount + 1
+        End If
+        
+        If Trim(currentSheet.Cells(i, 3).Value) = "" Then
+            errors = errors & "Row " & i & ": Missing Deck name" & vbCrLf
+            errorCount = errorCount + 1
+        End If
+        
+        If Trim(currentSheet.Cells(i, 4).Value) = "" Then
+            errors = errors & "Row " & i & ": Missing Croatian content" & vbCrLf
+            errorCount = errorCount + 1
+        End If
+        
+        If Trim(currentSheet.Cells(i, 5).Value) = "" Then
+            errors = errors & "Row " & i & ": Missing English content" & vbCrLf
+            errorCount = errorCount + 1
+        End If
+    Next i
+    
+    ' Show results
+    If errorCount = 0 Then
+        MsgBox "Validation passed! All required fields are present.", vbInformation
+    Else
+        MsgBox "Validation found " & errorCount & " issues:" & vbCrLf & vbCrLf & errors, vbExclamation
+    End If
+End Sub
+
+' Help function
+Public Sub ShowAnkiHelp()
+    Dim helpText As String
+    
+    helpText = "Anki Tools - Help" & vbCrLf & vbCrLf & _
+               "IMPORT FROM ANKI:" & vbCrLf & _
+               "1. Click 'Import from Anki' button" & vbCrLf & _
+               "2. Select your Anki export file (.txt)" & vbCrLf & _
+               "3. The Python script will clean HTML and convert to Excel" & vbCrLf & _
+               "4. A new Excel file will open with your data" & vbCrLf & vbCrLf & _
+               "EDIT IN EXCEL:" & vbCrLf & _
+               "1. Make your changes in the Excel file" & vbCrLf & _
+               "2. No encoding issues - work in native Excel format" & vbCrLf & vbCrLf & _
+               "EXPORT TO ANKI:" & vbCrLf & _
+               "1. Click 'Export to Anki' button" & vbCrLf & _
+               "2. Choose save location" & vbCrLf & _
+               "3. File will be converted to Anki format with UTF-8 encoding" & vbCrLf & vbCrLf & _
+               "VALIDATE FORMAT:" & vbCrLf & _
+               "1. Click 'Validate Format' to check required fields" & vbCrLf & _
+               "2. Ensures all necessary data is present" & vbCrLf & vbCrLf & _
+               "REQUIREMENTS:" & vbCrLf & _
+               "- Python installed and in PATH" & vbCrLf & _
+               "- anki_excel_tool.py in same directory as Excel file" & vbCrLf & _
+               "- Macros enabled in Excel"
+    
+    MsgBox helpText, vbInformation, "Anki Tools Help"
+End Sub 

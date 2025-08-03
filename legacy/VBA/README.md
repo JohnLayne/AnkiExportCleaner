@@ -17,16 +17,16 @@ This directory contains the VBA code and ribbon customization for the Excel inte
 4. Click OK
 
 ### 2. Import VBA Code
-1. Create a new Excel file with macros enabled (.xlsm)
+1. Open `AnkiTool.xlsm` in Excel
 2. Press Alt + F11 to open VBA Editor
 3. Right-click on "Modules" → Import File
-4. Select `Module1.bas`
+4. Select `Module1.bas` (from the same directory as AnkiTool.xlsm)
 
 ### 3. Custom Ribbon Setup
 1. In Excel, go to File → Options → Customize Ribbon
 2. Click "Import/Export" → "Import customization file"
-3. Select `Ribbon.xml`
-4. The custom "Anki Tools" tab will appear
+3. Select `Ribbon.xml` (from the same directory as AnkiTool.xlsm)
+4. The custom "Anki Tools" tab will appear in the ribbon
 
 ## 🎯 VBA Functions
 
