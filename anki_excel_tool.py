@@ -1,18 +1,28 @@
 #!/usr/bin/env python3
 """
-Anki Export Cleaner
+Anki Export Cleaner - Excel Integration
 
-Cleans Anki flashcard deck export files by removing HTML formatting
-while preserving media links and all original columns.
+Cleans Anki flashcard deck export files and converts them to Excel format
+for easy editing while preserving media links and all original columns.
 """
 
 import os
 import re
 import sys
+import argparse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import List, Optional, Tuple
 from tkinter import Tk, filedialog
+
+try:
+    from openpyxl import Workbook
+    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+    from openpyxl.utils import get_column_letter
+    EXCEL_AVAILABLE = True
+except ImportError:
+    EXCEL_AVAILABLE = False
+    print("Warning: openpyxl not available. Excel export will be disabled.")
 
 # Constants
 REQUIRED_HEADERS = [
@@ -289,6 +299,77 @@ class AnkiCleaner:
             print(f"❌ Error writing output file: {e}", file=sys.stderr)
             return False
     
+    def export_to_excel(self, output_path: Path) -> bool:
+        """Export the cleaned data to Excel format."""
+        if not EXCEL_AVAILABLE:
+            print("❌ Excel export not available. Install openpyxl: pip install openpyxl", file=sys.stderr)
+            return False
+        
+        try:
+            # Create workbook and worksheet
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Anki Cards"
+            
+            # Define styles
+            header_font = Font(bold=True, color="FFFFFF")
+            header_fill = PatternFill(start_color="366092", end_color="366092", fill_type="solid")
+            header_alignment = Alignment(horizontal="center", vertical="center")
+            
+            data_font = Font(size=11)
+            data_alignment = Alignment(vertical="top", wrap_text=True)
+            
+            border = Border(
+                left=Side(style='thin'),
+                right=Side(style='thin'),
+                top=Side(style='thin'),
+                bottom=Side(style='thin')
+            )
+            
+            # Write headers
+            headers = ["GUID", "Note Type", "Deck", "Croatian", "English", "Audio", "Field 7", "Field 8", "Tags"]
+            for col, header in enumerate(headers, 1):
+                cell = ws.cell(row=1, column=col, value=header)
+                cell.font = header_font
+                cell.fill = header_fill
+                cell.alignment = header_alignment
+                cell.border = border
+            
+            # Write data rows
+            for row_idx, entry in enumerate(self.entries, 2):
+                row_data = entry.to_output_row()
+                for col_idx, value in enumerate(row_data, 1):
+                    cell = ws.cell(row=row_idx, column=col_idx, value=value)
+                    cell.font = data_font
+                    cell.alignment = data_alignment
+                    cell.border = border
+            
+            # Auto-adjust column widths
+            for column in ws.columns:
+                max_length = 0
+                column_letter = get_column_letter(column[0].column)
+                for cell in column:
+                    try:
+                        if len(str(cell.value)) > max_length:
+                            max_length = len(str(cell.value))
+                    except:
+                        pass
+                adjusted_width = min(max_length + 2, 50)  # Cap at 50 characters
+                ws.column_dimensions[column_letter].width = adjusted_width
+            
+            # Add a note about Anki headers
+            note_row = len(self.entries) + 4
+            ws.cell(row=note_row, column=1, value="Note: This file was created from Anki export.")
+            ws.cell(row=note_row + 1, column=1, value="Use the 'Export to Anki' button to convert back to Anki format.")
+            
+            # Save the workbook
+            wb.save(output_path)
+            return True
+            
+        except Exception as e:
+            print(f"❌ Error exporting to Excel: {e}", file=sys.stderr)
+            return False
+    
     def run(self) -> bool:
         """Main execution method."""
         print("🔧 Anki Export Cleaner")
@@ -327,14 +408,56 @@ class AnkiCleaner:
 
 def main():
     """Main entry point."""
+    parser = argparse.ArgumentParser(description='Convert Anki export to Excel format')
+    parser.add_argument('input_file', nargs='?', help='Input Anki export file (.txt)')
+    parser.add_argument('--excel', '-e', action='store_true', help='Export to Excel format (.xlsx)')
+    parser.add_argument('--output', '-o', help='Output file path')
+    
+    args = parser.parse_args()
+    
     cleaner = AnkiCleaner()
-    success = cleaner.run()
-    sys.exit(0 if success else 1)
+    
+    # If input file provided via command line
+    if args.input_file:
+        input_path = Path(args.input_file)
+        if not input_path.exists():
+            print(f"❌ Input file not found: {input_path}", file=sys.stderr)
+            sys.exit(1)
+        
+        # Parse the input file
+        print(f"📖 Parsing: {input_path}")
+        if not cleaner.parse_input_file(input_path):
+            sys.exit(1)
+        
+        # Determine output path
+        if args.output:
+            output_path = Path(args.output)
+        else:
+            if args.excel:
+                output_path = input_path.parent / f"{input_path.stem}-EXCEL.xlsx"
+            else:
+                output_path = input_path.parent / f"{input_path.stem}-CLEANED.txt"
+        
+        # Export based on format
+        if args.excel:
+            print(f"📊 Exporting to Excel: {output_path}")
+            success = cleaner.export_to_excel(output_path)
+        else:
+            print(f"📝 Writing: {output_path}")
+            success = cleaner.write_output_file(output_path)
+        
+        if success:
+            print(f"✅ Successfully processed {len(cleaner.entries)} entries")
+            print(f"💾 Output saved to: {output_path}")
+            sys.exit(0)
+        else:
+            sys.exit(1)
+    
+    # Interactive mode (original behavior)
+    else:
+        success = cleaner.run()
+        sys.exit(0 if success else 1)
 
 
 if __name__ == "__main__":
     main()
-
-
-
-    

@@ -1,5 +1,6 @@
 # Current dependencies
-chardet>=5.0.0                    # For encoding detection and conversion
+chardet>=5.0.0
+openpyxl>=3.0.0                    # For encoding detection and conversion
 
 # Future enhancement dependencies (commented out)
 # beautifulsoup4>=4.9.0          # For better HTML parsing
