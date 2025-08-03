@@ -38,7 +38,12 @@ Streamlined workflow combining HTML cleaning with Excel integration. Users work 
 3. **Set up Excel integration**:
    - Open `excel/AnkiTool.xlsm` in Excel
    - Enable macros when prompted
-   - Import VBA code: Alt+F11 → Right-click 'Modules' → Import File → Select `excel/Module1.bas`
+   - **Import VBA code**: 
+     - Press Alt+F11 (opens VBA editor)
+     - Double-click Module11 in left panel
+     - Copy all code from `excel/complete_vba_code.txt`
+     - Paste to replace existing code
+     - Save Excel file
    - Import ribbon: File → Options → Customize Ribbon → Import/Export → Import → Select `excel/Ribbon.xml`
    - The 'Anki Tools' tab will appear
 

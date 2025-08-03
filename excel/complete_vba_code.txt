@@ -1,4 +1,3 @@
-Attribute VB_Name = "Module1"
 Option Explicit
 
 ' Constants
@@ -84,7 +83,7 @@ Public Sub ExportToAnki()
     Dim lastCol As Long
     Dim i As Long, j As Long
     Dim outputData As String
-    Dim cellValue As String
+    Dim cellValue As Variant
     
     ' Get current worksheet
     Set currentSheet = ActiveSheet
@@ -98,8 +97,16 @@ Public Sub ExportToAnki()
         Exit Sub
     End If
     
-    ' Get data range
+    ' Get data range (exclude instruction lines at bottom)
     lastRow = currentSheet.Cells(currentSheet.Rows.Count, 1).End(xlUp).Row
+    
+    ' Skip instruction lines at the bottom
+    While lastRow > 1 And (Trim(currentSheet.Cells(lastRow, 1).Value) = "" Or _
+          InStr(Trim(currentSheet.Cells(lastRow, 1).Value), "Note: This file") > 0 Or _
+          InStr(Trim(currentSheet.Cells(lastRow, 1).Value), "Use the 'Export") > 0)
+        lastRow = lastRow - 1
+    Wend
+    
     lastCol = currentSheet.Cells(1, currentSheet.Columns.Count).End(xlToLeft).Column
     
     ' Start building output
@@ -118,9 +125,12 @@ Public Sub ExportToAnki()
         rowData = ""
         
         For j = 1 To lastCol
-            cellValue = Trim(currentSheet.Cells(i, j).Value)
-            If cellValue = "" Then
+            ' Get cell value and convert to string safely
+            cellValue = currentSheet.Cells(i, j).Value
+            If IsNull(cellValue) Or IsEmpty(cellValue) Or cellValue = "" Then
                 cellValue = ""
+            Else
+                cellValue = Trim(CStr(cellValue))
             End If
             
             ' Add tab separator (except for last column)
@@ -134,14 +144,18 @@ Public Sub ExportToAnki()
         outputData = outputData & rowData & vbCrLf
     Next i
     
-    ' Write to file with UTF-8 encoding
-    WriteUTF8File outputFile, outputData
+    ' Write to file with simple text output (UTF-8 compatible)
+    Dim fileNum As Integer
+    fileNum = FreeFile
+    Open outputFile For Output As #fileNum
+    Print #fileNum, outputData
+    Close #fileNum
     
     MsgBox "File successfully exported to Anki format!" & vbCrLf & "File: " & outputFile, vbInformation
     Exit Sub
     
 ErrorHandler:
-    MsgBox "Error during export: " & Err.Description, vbCritical
+    MsgBox "Error during export: " & Err.Description & vbCrLf & "Line: " & Erl & vbCrLf & "Error Number: " & Err.Number, vbCritical
 End Sub
 
 ' Helper function to get Python path
@@ -166,26 +180,7 @@ Private Function GetPythonPath() As String
     GetPythonPath = ""
 End Function
 
-' Helper function to write UTF-8 file
-Private Sub WriteUTF8File(filePath As String, content As String)
-    Dim fileNum As Integer
-    Dim utf8BOM() As Byte
-    
-    ' UTF-8 BOM
-    utf8BOM = Array(&HEF, &HBB, &HBF)
-    
-    ' Open file for binary write
-    fileNum = FreeFile
-    Open filePath For Binary As #fileNum
-    
-    ' Write UTF-8 BOM
-    Put #fileNum, , utf8BOM
-    
-    ' Write content
-    Put #fileNum, , content
-    
-    Close #fileNum
-End Sub
+
 
 ' Function to validate Anki format
 Public Sub ValidateAnkiFormat()
@@ -254,7 +249,7 @@ Public Sub ShowAnkiHelp()
                "2. Ensures all necessary data is present" & vbCrLf & vbCrLf & _
                "REQUIREMENTS:" & vbCrLf & _
                "- Python installed and in PATH" & vbCrLf & _
-               "- anki_excel_tool.py in same directory as Excel file" & vbCrLf & _
+               "- anki_excel_tool.py in project root directory" & vbCrLf & _
                "- Macros enabled in Excel"
     
     MsgBox helpText, vbInformation, "Anki Tools Help"
