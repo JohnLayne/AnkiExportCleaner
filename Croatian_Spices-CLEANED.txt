@@ -1,0 +1,22 @@
+﻿#separator:tab
+#html:true
+#guid column:1
+GUID	Croatian	English	Audio
+v,Cc7]K_>Z	(mr) bosiljak	basil	[sound:bosiljak.mp3]
+Bc$xz)k^S_	(mr) cimet	cinnamon	[sound:cimet.mp3]
+Ewn.8ed*Nx	(mr) kari	curry	[sound:kari.mp3]
+NsntHPqy3G	(mr) komorač	fennel	[sound:komorač-120b65ada7219c736b437552a4f6ea70ead95c8f.mp3]
+roDQdD^m]n	(mr) kopar	dill	[sound:kopar.mp3]
+n]y6xy{-tG	(mr) korijander	coriander	[sound:korijander.mp3]
+xGiWw(#/s-	(žr) limunska trava	lemongrass	[sound:limunska trava.mp3]
+gJ<.z?tSz5	(mr) mažuran	marjoram	[sound:mažuran.mp3]
+d+cWyuO}=A	(žr) menta	mint	[sound:menta.mp3]
+t`7p<M:QY#	(mr) muškatni oraščić	nutmeg	[sound:muškatni oraščić.mp3]
+e;f[$V@Do_	(mr) origano	oregano	[sound:origano.mp3]
+r1mcn_<-8u	(mr) papar	pepper (spice)	[sound:papar.mp3]
+jK*2X%fxan	(mr) ružmarin	rosemary	[sound:ružmarin.mp3]
+oA%BY/>PID	(žr) sol	salt	[sound:sol.mp3]
+p#A*MNTd3{	(mr) timijan	thyme	[sound:timijan.mp3]
+i;|k7~UK;G	(žr) vanilija	vanilla	[sound:vanilija.mp3]
+rd`E&!pY)r	(mr) vlasac	chive	[sound:vlasac.mp3]
+c|X(Mb=Qs_	začinima	spices	[sound:začinima.mp3]
