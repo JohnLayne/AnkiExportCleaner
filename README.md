@@ -71,17 +71,20 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
 
 4. **Edit in Excel** (optional):
    - Make your changes in Excel
-   - **Save normally** (Ctrl+S) - keeps the `.txt` extension
-   - **Note**: Excel may corrupt the UTF-8 encoding
+   - **Save As** → Choose "Text (Tab delimited) (*.txt)"
+   - **Set encoding**: Tools → Web Options → Encoding → Unicode (UTF-8)
+   - **Save** the file
+   - **Note**: This preserves diacritics correctly
 
-5. **Fix Excel Encoding** (if edited):
+5. **Fix Excel Encoding** (recommended):
    - Run `python fix_excel_encoding.py`
    - Select your Excel-edited file
    - The script will detect and fix any encoding issues
+   - Creates a backup of the original file
 
 6. **Re-import to Anki**:
-   - Use the cleaned (and optionally fixed) file to re-import to Anki
-   - All formatting and audio references will be preserved
+   - Use the cleaned and encoding-fixed file to re-import to Anki
+   - All formatting, audio references, and diacritics will be preserved
 
 ## 📁 File Structure
 
@@ -148,10 +151,12 @@ GUID    NoteType    Deck    Clean_Content    Clean_English    Audio_Reference   
 
 ### Excel Encoding Issue
 Excel has a known issue with UTF-8 encoding when saving tab-delimited text files:
-- **Problem**: Excel saves files as Windows-1252 or similar encoding instead of UTF-8
-- **Symptom**: Croatian diacritics (č, ć, đ, š, ž) appear as garbled characters
-- **Solution**: Use `fix_excel_encoding.py` to detect and fix encoding issues after Excel editing
-- **Workflow**: Regular save (Ctrl+S) in Excel works fine - the encoding fix script handles any corruption
+- **Problem**: Excel saves files as Windows-1252, UTF-16, or similar encoding instead of UTF-8
+- **Symptom**: Croatian diacritics (č, ć, đ, š, ž) appear as garbled characters or question marks
+- **Solution**: 
+  - **Prevention**: Use "Save As" → "Text (Tab delimited) (*.txt)" with UTF-8 encoding
+  - **Recovery**: Use `fix_excel_encoding.py` to detect and fix encoding issues after Excel editing
+- **Complete Workflow**: The encoding fix script handles any corruption and ensures Anki compatibility
 
 ### Key Classes and Methods
 
