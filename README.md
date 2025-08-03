@@ -6,6 +6,20 @@ A Python utility that cleans and formats Anki flashcard exports for better Excel
 
 When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTML, tags, deck names, etc.), the resulting `.txt` file contains HTML formatting that makes it difficult to work with in Excel. This script cleans the HTML formatting while preserving all essential data and maintaining compatibility with Anki re-import.
 
+## 🌿 Available Versions
+
+This repository contains two different approaches to handle Anki exports:
+
+- **`main` branch**: Current working solution with manual Excel workflow
+  - Uses `anki_cleaner.py` to clean HTML formatting
+  - Manual Excel editing with encoding fix utility
+  - Proven and tested workflow
+
+- **`excel-integration` branch**: New VBA/ribbon button approach (in development)
+  - Direct Excel integration with custom ribbon buttons
+  - Automatic encoding handling
+  - Streamlined workflow for Excel users
+
 ## ✨ Features
 
 - **HTML Content Extraction**: Removes all HTML tags and formatting from content fields
@@ -29,6 +43,8 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
 - Python 3.6 or higher
 - tkinter (usually included with Python)
 - chardet (for Excel encoding fix utility)
+
+**Note**: This documentation covers the `main` branch workflow. For the Excel integration approach, switch to the `excel-integration` branch.
 
 ### Installation
 
