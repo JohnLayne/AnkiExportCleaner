@@ -8,13 +8,15 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
 
 ## ✨ Features
 
-- **HTML Content Extraction**: Removes HTML tags and formatting from content fields
+- **HTML Content Extraction**: Removes all HTML tags and formatting from content fields
 - **Complete Column Preservation**: Maintains all original Anki columns (GUID, NoteType, Deck, etc.)
-- **Anki Compatibility**: Preserves all required Anki import headers
+- **Anki Compatibility**: Preserves all required Anki import headers for seamless re-import
 - **Excel-Friendly Output**: Produces clean, tab-separated data perfect for Excel import
 - **Audio Reference Preservation**: Maintains `[sound:filename.mp3]` references for Anki
 - **User-Friendly Interface**: Simple file dialog for selecting input files
+- **Overwrite Protection**: Asks for permission before overwriting existing files
 - **Detailed Logging**: Provides feedback on processing status and any skipped entries
+- **Multiline Record Support**: Handles complex Anki exports with multiline HTML content
 
 ## 🚀 Quick Start
 
@@ -88,10 +90,10 @@ GUID    NoteType    Deck    HTML_Content    English_Content    Audio_Reference  
 
 ### Processing Steps
 1. **Header Preservation**: Collects and preserves all Anki import headers
-2. **HTML Extraction**: Extracts clean text from HTML `<td>` elements
-3. **Field Cleaning**: Removes HTML formatting while preserving content
-4. **Audio Reference Handling**: Maintains `[sound:filename.mp3]` tags
-5. **Output Generation**: Creates a clean, tab-separated file with all headers
+2. **Multiline Record Parsing**: Handles complex records that span multiple lines
+3. **HTML Extraction**: Extracts clean text from HTML content while preserving media links
+4. **Field Cleaning**: Removes all HTML formatting while preserving content and audio references
+5. **Output Generation**: Creates a clean, tab-separated file with proper Anki format
 
 ### Output Format
 The cleaned file maintains the same structure but with clean text:
@@ -116,8 +118,10 @@ GUID    NoteType    Deck    Clean_Content    Clean_English    Audio_Reference   
 ### Key Functions
 
 - `clean_text()`: Removes HTML entities and normalizes whitespace
-- `extract_td_content()`: Extracts content from HTML table cells
-- `main()`: Orchestrates the entire cleaning process
+- `extract_td_content()`: Extracts content from HTML while preserving media links
+- `parse_anki_line()`: Handles multiline records with quoted fields
+- `is_new_record()`: Detects the start of new Anki records
+- `main()`: Orchestrates the entire cleaning process with file overwrite protection
 
 ## 📊 Sample Data
 
@@ -140,6 +144,8 @@ v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinim
 - [ ] GUI interface with preview functionality
 - [ ] Batch processing for multiple files
 - [ ] Configuration file for custom field mappings
+- [ ] Progress bar for large files
+- [ ] Backup creation before processing
 
 ## 🤝 Contributing
 
