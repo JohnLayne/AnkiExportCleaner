@@ -1,0 +1,165 @@
+#separator:tab
+#html:true
+#guid column:1
+#notetype column:2
+#deck column:3
+#tags column:9
+lK*b+b~KAl	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr) divljač</td>
+
+</tr></tbody></table>"	game (food)	[sound:divljač.mp3]			
+r`qPnPxc1K	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	(žr) govedina	beef	[sound:govedina.mp3]			
+vc&Njisf4,	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr)
+  janjetina</td>
+
+</tr></tbody></table>"	lamb	[sound:janjetina.mp3]			
+x``h1$IVCI	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr)
+  kobasica</td>
+
+</tr></tbody></table>"	sausage	[sound:kobasica.mp3]			
+"c<nu#f*<Ph"	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	(žr) kost	bone (food)	[sound:kost.mp3]			
+uT+gN|ha6c	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(mr)
+  losos</td>
+
+</tr></tbody></table>"	salmon	[sound:losos.mp3]			
+cJP7@q~i%l	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(sr)
+  masno meso</td>
+
+</tr></tbody></table>"	fatty meat	[sound:masno meso.mp3]			
+L,I?Wf.qOR	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(sr) meso</td>
+
+</tr></tbody></table>"	meat	[sound:meso.mp3]			
+OC/jBp}[)C	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(sr)
+  mljeveno meso</td>
+
+</tr></tbody></table>"	minced meat	[sound:mljeveno meso.mp3]			
+LUK2J<lu1a	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(sr) nemasno meso</td>
+
+</tr></tbody></table>"	lean meat	[sound:nemasno meso.mp3]			
+MUgn&i}l)w	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(mr)
+  odrezak</td>
+
+</tr></tbody></table>"	steak	[sound:odrezak.mp3]			duplicate
+sb}-0?:uPC	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr) piletina</td>
+
+</tr></tbody></table>"	chicken (meat)	[sound:piletina.mp3]			
+v/;)4-F@AJ	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr)
+  puretina</td>
+
+</tr></tbody></table>"	turkey	[sound:puretina.mp3]			
+f4@0:k=7Lb	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr) riba</td>
+
+</tr></tbody></table>"	fish (to eat)	[sound:riba.mp3]			
+5tY76A/$|	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr)
+  riblja kost</td>
+
+</tr></tbody></table>"	fishbone	[sound:riblja kost.mp3]			
+m-7he&E8R,	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr) salama</td>
+
+</tr></tbody></table>"	salami	[sound:salama.mp3]			
+uk6CY1hf2N	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr)
+  slanina</td>
+
+</tr></tbody></table>"	"<table>
+
+<tbody><tr>
+
+<td>bacon</td>
+
+</tr></tbody></table>"	[sound:slanina.mp3]			
+dL?,Jt!N5>	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr) srdela</td>
+
+</tr></tbody></table>"	sardine	[sound:srdela.mp3]			
+"FhJji#tOox"	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr)
+  šunka</td>
+
+</tr></tbody></table>"	ham	[sound:šunka.mp3]			
+"n7-E#Z%>6*"	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr) svinjetina</td>
+
+</tr></tbody></table>"	pork	[sound:svinjetina.mp3]			
+j)^kP`h-u:	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr)
+  teletina</td>
+
+</tr></tbody></table>"	veal	[sound:teletina.mp3]			
+qC;5}8IJH+	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Meat and Fish - meso i riba	"<table>
+
+<tbody><tr>
+
+<td>(žr) tuna</td>
+
+</tr></tbody></table>"	tuna	[sound:tuna.mp3]			

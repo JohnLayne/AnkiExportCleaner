@@ -83,6 +83,8 @@ def is_new_record(line: str) -> bool:
     guid_pattern = r'^[A-Za-z0-9,._\-+=\[\]{}|\\:;"\'<>?/~`!@#$%^&*()]+\t'
     return bool(re.match(guid_pattern, line))
 
+
+
 def main():
     # Define required Anki headers
     REQUIRED_HEADERS = [

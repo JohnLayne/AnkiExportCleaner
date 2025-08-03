@@ -59,8 +59,18 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
    - Choose "Tab" as delimiter
    - Import the data
 
-4. **Re-import to Anki** (optional):
-   - Use the cleaned file to re-import to Anki
+4. **Edit in Excel** (optional):
+   - Make your changes in Excel
+   - **Save normally** (Ctrl+S) - keeps the `.txt` extension
+   - **Note**: Excel may corrupt the UTF-8 encoding
+
+5. **Fix Excel Encoding** (if edited):
+   - Run `python fix_excel_encoding.py`
+   - Select your Excel-edited file
+   - The script will detect and fix any encoding issues
+
+6. **Re-import to Anki**:
+   - Use the cleaned (and optionally fixed) file to re-import to Anki
    - All formatting and audio references will be preserved
 
 ## 📁 File Structure
@@ -68,6 +78,8 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
 ```
 AnkiExportCleaner/
 ├── anki_cleaner.py          # Main script
+├── fix_excel_encoding.py    # Excel encoding fix utility
+├── requirements.txt         # Dependencies
 ├── README.md               # This file
 ├── .gitignore              # Git exclusions
 ├── Croatian_Spices.txt     # Sample input file
@@ -110,10 +122,18 @@ GUID    NoteType    Deck    Clean_Content    Clean_English    Audio_Reference   
 ## 🛠️ Technical Details
 
 ### Dependencies
-- **Python Standard Library**: No external dependencies required
+- **Python Standard Library**: Most functionality uses standard library
+- **chardet**: For encoding detection and conversion (optional, for Excel fix)
 - **tkinter**: For file dialog (included with Python)
 - **csv**: For tab-separated output handling
 - **re**: For HTML parsing and text cleaning
+
+### Excel Encoding Issue
+Excel has a known issue with UTF-8 encoding when saving tab-delimited text files:
+- **Problem**: Excel saves files as Windows-1252 or similar encoding instead of UTF-8
+- **Symptom**: Croatian diacritics (č, ć, đ, š, ž) appear as garbled characters
+- **Solution**: Use `fix_excel_encoding.py` to detect and fix encoding issues after Excel editing
+- **Workflow**: Regular save (Ctrl+S) in Excel works fine - the encoding fix script handles any corruption
 
 ### Key Functions
 
