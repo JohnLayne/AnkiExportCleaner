@@ -17,6 +17,10 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
 - **Overwrite Protection**: Asks for permission before overwriting existing files
 - **Detailed Logging**: Provides feedback on processing status and any skipped entries
 - **Multiline Record Support**: Handles complex Anki exports with multiline HTML content
+- **Robust Error Handling**: Comprehensive error handling with graceful degradation
+- **Class-Based Architecture**: Clean, maintainable code structure
+- **Type Safety**: Full type hints for better IDE support and code reliability
+- **Modern Python Features**: Uses pathlib, dataclasses, and other modern Python features
 
 ## 🚀 Quick Start
 
@@ -24,6 +28,7 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
 
 - Python 3.6 or higher
 - tkinter (usually included with Python)
+- chardet (for Excel encoding fix utility)
 
 ### Installation
 
@@ -33,7 +38,12 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
    cd AnkiExportCleaner
    ```
 
-2. Run the script:
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Run the script:
    ```bash
    python anki_cleaner.py
    ```
@@ -77,8 +87,8 @@ When exporting Anki decks as "Notes in Plain Text" with all options enabled (HTM
 
 ```
 AnkiExportCleaner/
-├── anki_cleaner.py          # Main script
-├── fix_excel_encoding.py    # Excel encoding fix utility
+├── anki_cleaner.py          # Main script (refactored with class-based architecture)
+├── fix_excel_encoding.py    # Excel encoding fix utility (refactored)
 ├── requirements.txt         # Dependencies
 ├── README.md               # This file
 ├── .gitignore              # Git exclusions
@@ -87,6 +97,13 @@ AnkiExportCleaner/
 ```
 
 ## 🔧 How It Works
+
+### Architecture Overview
+The refactored code uses a clean, object-oriented approach:
+- **`AnkiCleaner` class**: Main orchestrator with focused methods
+- **`AnkiRecord` dataclass**: Structured data representation
+- **Constants and configuration**: Centralized configuration management
+- **Error handling**: Comprehensive error handling throughout
 
 ### Input Format
 The script expects Anki exports with the following structure:
@@ -123,10 +140,11 @@ GUID    NoteType    Deck    Clean_Content    Clean_English    Audio_Reference   
 
 ### Dependencies
 - **Python Standard Library**: Most functionality uses standard library
-- **chardet**: For encoding detection and conversion (optional, for Excel fix)
+- **chardet**: For encoding detection and conversion (required for Excel fix)
 - **tkinter**: For file dialog (included with Python)
-- **csv**: For tab-separated output handling
-- **re**: For HTML parsing and text cleaning
+- **pathlib**: For modern path handling
+- **dataclasses**: For structured data representation
+- **typing**: For type hints and better code reliability
 
 ### Excel Encoding Issue
 Excel has a known issue with UTF-8 encoding when saving tab-delimited text files:
@@ -135,13 +153,43 @@ Excel has a known issue with UTF-8 encoding when saving tab-delimited text files
 - **Solution**: Use `fix_excel_encoding.py` to detect and fix encoding issues after Excel editing
 - **Workflow**: Regular save (Ctrl+S) in Excel works fine - the encoding fix script handles any corruption
 
-### Key Functions
+### Key Classes and Methods
 
+#### AnkiCleaner Class
+- `__init__()`: Initialize the cleaner with empty state
 - `clean_text()`: Removes HTML entities and normalizes whitespace
 - `extract_td_content()`: Extracts content from HTML while preserving media links
 - `parse_anki_line()`: Handles multiline records with quoted fields
 - `is_new_record()`: Detects the start of new Anki records
-- `main()`: Orchestrates the entire cleaning process with file overwrite protection
+- `process_record()`: Processes a single record and returns an AnkiRecord object
+- `select_input_file()`: Opens file dialog for input selection
+- `parse_input_file()`: Parses the entire input file
+- `write_output_file()`: Writes the cleaned data to output file
+- `run()`: Main orchestration method with comprehensive error handling
+
+#### AnkiRecord Dataclass
+- `guid`: Unique identifier for the record
+- `note_type`: Type of Anki note
+- `deck`: Deck name
+- `croatian`: Cleaned Croatian content
+- `english`: Cleaned English content
+- `audio`: Audio reference
+- `remaining_fields`: Additional fields (tags, etc.)
+- `to_output_row()`: Converts record to output format
+
+#### ExcelEncodingFixer Class
+- `detect_encoding()`: Detects file encoding using chardet
+- `create_backup()`: Creates backup before modification
+- `convert_encoding()`: Converts file encoding to UTF-8
+- `fix_encoding()`: Main method for fixing encoding issues
+- `select_file()`: File selection with error handling
+- `run()`: Main orchestration method
+
+### Constants and Configuration
+- **Field indices**: Named constants for all field positions
+- **Regex patterns**: Pre-compiled patterns for performance
+- **HTML entities**: Dictionary mapping for entity replacement
+- **File suffixes**: Configurable backup and output suffixes
 
 ## 📊 Sample Data
 
@@ -166,6 +214,9 @@ v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinim
 - [ ] Configuration file for custom field mappings
 - [ ] Progress bar for large files
 - [ ] Backup creation before processing
+- [ ] Unit tests for all components
+- [ ] Logging configuration for debugging
+- [ ] Performance optimization for large files
 
 ## 🤝 Contributing
 
@@ -177,6 +228,13 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
+
+### Code Style
+- Follow PEP 8 guidelines
+- Use type hints for all functions
+- Add comprehensive docstrings
+- Include error handling for all operations
+- Test with various Anki export formats
 
 ## 📝 License
 
