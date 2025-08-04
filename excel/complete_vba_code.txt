@@ -144,14 +144,26 @@ Public Sub ExportToAnki()
         outputData = outputData & rowData & vbCrLf
     Next i
     
-    ' Write to file with simple text output (UTF-8 compatible)
-    Dim fileNum As Integer
-    fileNum = FreeFile
-    Open outputFile For Output As #fileNum
-    Print #fileNum, outputData
-    Close #fileNum
+    ' Write to file using ADODB Stream for proper UTF-8 encoding
+    Dim stream As Object
+    Set stream = CreateObject("ADODB.Stream")
     
-    MsgBox "File successfully exported to Anki format!" & vbCrLf & "File: " & outputFile, vbInformation
+    ' Set up stream for UTF-8 writing
+    stream.Type = 2 ' Text
+    stream.Charset = "UTF-8"
+    stream.Open
+    
+    ' Write the data
+    stream.WriteText outputData
+    
+    ' Save to file
+    stream.SaveToFile outputFile, 2 ' Overwrite
+    
+    ' Close stream
+    stream.Close
+    Set stream = Nothing
+    
+    MsgBox "File successfully exported to Anki format with UTF-8 encoding!" & vbCrLf & "File: " & outputFile, vbInformation
     Exit Sub
     
 ErrorHandler:
@@ -179,8 +191,6 @@ Private Function GetPythonPath() As String
     ' If not found, return empty string
     GetPythonPath = ""
 End Function
-
-
 
 ' Function to validate Anki format
 Public Sub ValidateAnkiFormat()

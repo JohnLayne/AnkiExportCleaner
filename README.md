@@ -10,7 +10,7 @@ Streamlined workflow combining HTML cleaning with Excel integration. Users work 
 
 - **HTML Content Extraction**: Removes HTML tags while preserving media links
 - **Excel Integration**: Convert cleaned files to Excel format for easy editing
-- **Custom Excel Ribbon**: VBA-powered import/export buttons
+- **Quick Access Toolbar**: VBA-powered import/export buttons (manual setup)
 - **Automatic Encoding**: UTF-8 handling throughout
 - **Complete Column Preservation**: Maintains all original Anki columns
 - **Audio Reference Preservation**: Maintains `[sound:filename.mp3]` references
@@ -44,15 +44,20 @@ Streamlined workflow combining HTML cleaning with Excel integration. Users work 
      - Copy all code from `excel/complete_vba_code.txt`
      - Paste to replace existing code
      - Save Excel file
-   - Import ribbon: File → Options → Customize Ribbon → Import/Export → Import → Select `excel/Ribbon.xml`
-   - The 'Anki Tools' tab will appear
+   - **Set up Quick Access Toolbar**:
+     - Right-click Quick Access Toolbar (top-left)
+     - Select "Customize Quick Access Toolbar"
+     - Choose "Macros" from dropdown
+     - Add: ImportFromAnki, ExportToAnki, ValidateAnkiFormat, ShowAnkiHelp
+     - Rename buttons as desired (e.g., "Import Anki", "Export Anki")
+     - Click "OK" to save
 
 ### Usage
 
 1. **Export from Anki**: File → Export → "Notes in Plain Text (.txt)" → Check all boxes
-2. **Import to Excel**: Click "Import from Anki" button in "Anki Tools" ribbon tab
+2. **Import to Excel**: Click "Import from Anki" button in Quick Access Toolbar
 3. **Edit in Excel**: Make changes in familiar Excel interface
-4. **Export back to Anki**: Click "Export to Anki" button in ribbon
+4. **Export back to Anki**: Click "Export to Anki" button in Quick Access Toolbar
 5. **Import to Anki**: Use exported file to re-import
 
 ## 📁 File Structure
@@ -66,8 +71,7 @@ excel-integration/
 │
 ├── excel/                   # Excel files
 │   ├── AnkiTool.xlsm        # Ready-to-use Excel file
-│   ├── Module1.bas          # VBA code
-│   └── Ribbon.xml           # Custom ribbon
+│   └── complete_vba_code.txt # VBA code for copy-paste
 │
 ├── docs/                    # Documentation
 │   └── development.md       # Development status
@@ -83,11 +87,11 @@ excel-integration/
 ## 🔧 How It Works
 
 ### Workflow
-1. **VBA Import**: Ribbon button calls Python script
+1. **VBA Import**: Quick Access Toolbar button calls Python script
 2. **HTML Cleaning**: Python removes HTML tags, preserves media links
 3. **Excel Conversion**: Converts to Excel format with formatting
 4. **Excel Editing**: Users work in native Excel format
-5. **VBA Export**: Ribbon button converts back to Anki format with UTF-8
+5. **VBA Export**: Quick Access Toolbar button converts back to Anki format with UTF-8
 6. **Anki Import**: Clean file ready for Anki
 
 ### Key Components

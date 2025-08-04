@@ -1,29 +1,24 @@
-#separator:tab
+癤�#separator:tab
 #html:true
 #guid column:1
 #notetype column:2
 #deck column:3
 #tags column:9
-v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) bosiljakss	basil	[sound:bosiljak.mp3]			
-Bc$xz)k^S_	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) cimet	cinnamon	[sound:cimet.mp3]			
-Ewn.8ed*Nx	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) kari	curry	[sound:kari.mp3]			
-NsntHPqy3G	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) komorac	fennel	[sound:komorac-120b65ada7219c736b437552a4f6ea70ead95c8f.mp3]			
-roDQdD^m]n	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) kopar	dill	[sound:kopar.mp3]			
-n]y6xy{-tG	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) korijander	coriander	[sound:korijander.mp3]			
-xGiWw(#/s-	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(엛) limunska trava	lemongrass	[sound:limunska trava.mp3]			
-gJ<.z?tSz5	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) ma엞ran	marjoram	[sound:ma엞ran.mp3]			
-d+cWyuO}=A	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(엛) menta	mint	[sound:menta.mp3]			
-t`7p<M:QY#	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) mu쉓atni ora쉉ic	nutmeg	[sound:mu쉓atni ora쉉ic.mp3]			
-e;f[$V@Do_	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) origano	oregano	[sound:origano.mp3]			
-r1mcn_<-8u	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) papar	pepper (spice)	[sound:papar.mp3]			
-jK*2X%fxan	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) ru엕arin	rosemary	[sound:ru엕arin.mp3]			
-oA%BY/>PID	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(엛) sol	salt	[sound:sol.mp3]			
-p#A*MNTd3{	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) timijan	thyme	[sound:timijan.mp3]			
-i;|k7~UK;G	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(엛) vanilija	vanilla	[sound:vanilija.mp3]			
-rd`E&!pY)r	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	(mr) vlasac	chive	[sound:vlasac.mp3]			
-c|X(Mb=Qs_	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - zacinima	zacinima	spices	[sound:zacinima.mp3]			
-								
-								
-Note: This file was created from Anki export.								
-Use the 'Export to Anki' button to convert back to Anki format.								
-
+v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) bosiljaksss	basil	[sound:bosiljak.mp3]			
+Bc$xz)k^S_	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) cimet	cinnamon	[sound:cimet.mp3]			
+Ewn.8ed*Nx	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) kari	curry	[sound:kari.mp3]			
+NsntHPqy3G	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) komora훾	fennel	[sound:komora훾-120b65ada7219c736b437552a4f6ea70ead95c8f.mp3]			
+roDQdD^m]n	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) kopar	dill	[sound:kopar.mp3]			
+n]y6xy{-tG	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) korijander	coriander	[sound:korijander.mp3]			
+xGiWw(#/s-	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(탑r) limunska trava	lemongrass	[sound:limunska trava.mp3]			
+gJ<.z?tSz5	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) ma탑uran	marjoram	[sound:ma탑uran.mp3]			
+d+cWyuO}=A	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(탑r) menta	mint	[sound:menta.mp3]			
+t`7p<M:QY#	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) mu큄katni ora큄훾i훶	nutmeg	[sound:mu큄katni ora큄훾i훶.mp3]			
+e;f[$V@Do_	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) origano	oregano	[sound:origano.mp3]			
+r1mcn_<-8u	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) papar	pepper (spice)	[sound:papar.mp3]			
+jK*2X%fxan	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) ru탑marin	rosemary	[sound:ru탑marin.mp3]			
+oA%BY/>PID	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(탑r) sol	salt	[sound:sol.mp3]			
+p#A*MNTd3{	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) timijan	thyme	[sound:timijan.mp3]			
+i;|k7~UK;G	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(탑r) vanilija	vanilla	[sound:vanilija.mp3]			
+rd`E&!pY)r	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	(mr) vlasac	chive	[sound:vlasac.mp3]			
+c|X(Mb=Qs_	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - za훾inima	za훾inima	spices	[sound:za훾inima.mp3]			
