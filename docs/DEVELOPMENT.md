@@ -63,6 +63,12 @@ Anki Export (.txt) → Python Script → Excel File → VBA Export → Anki Impo
 - Python 3.6+, openpyxl, chardet
 - Microsoft Excel with VBA enabled
 
+### Known Limitations
+- **Long filenames**: Anki exports can have very long filenames that may exceed system limits
+- **Special characters**: Filenames with special characters (/, \, :, *, ?, ", <, >, |) can cause issues
+- **Excel sheet names**: Limited to 31 characters and cannot contain certain characters
+- **Path length**: Windows has 260-character path limit (can be extended with registry changes)
+
 ## 🔧 VBA Code Maintenance
 
 ### Current VBA Code Location
@@ -74,6 +80,8 @@ Anki Export (.txt) → Python Script → Excel File → VBA Export → Anki Impo
 2. **ExportToAnki()**: Converts Excel data back to Anki .txt format with UTF-8 encoding
 3. **ValidateAnkiFormat()**: Checks required fields
 4. **ShowAnkiHelp()**: Displays help information
+5. **CheckRequirements()**: Verifies Python installation and script availability
+6. **DebugPaths()**: Shows detected paths for troubleshooting
 
 ### Maintenance Workflow
 1. **AI updates**: `excel/complete_vba_code.txt` when fixes needed
@@ -87,6 +95,41 @@ Anki Export (.txt) → Python Script → Excel File → VBA Export → Anki Impo
 - ✅ **Instruction filtering**: Added logic to exclude Excel instruction lines from Anki export
 - ✅ **UI Approach**: Switched from problematic custom ribbon to reliable manual Quick Access Toolbar
 - ✅ **File cleanup**: Removed duplicate files and redundant setup scripts
+- ✅ **Filename consistency**: Fixed Excel sheet naming to use input filename instead of hardcoded "Anki Cards"
+- ✅ **VBA improvements**: Fixed hardcoded paths, improved Python detection, added utility functions
+- ✅ **Overflow errors**: Fixed VBA Shell command overflow issues by changing Integer to Long
+- ✅ **Path detection**: Enhanced GetProjectRoot() and GetScriptPath() functions for better portability
+- ✅ **System requirements**: Added CheckRequirements() function for troubleshooting
+- ✅ **Debug functions**: Added DebugPaths() for path verification
+- ✅ **Export naming**: Fixed ExportToAnki() to suggest correct filenames based on sheet names
+
+## ⚠️ Filename Handling & Limitations
+
+### Anki Export Filename Issues
+Anki exports can create files with very long names and special characters that may cause problems:
+
+**Common Issues:**
+- **Long filenames**: Anki deck names can be very descriptive and long
+- **Special characters**: Characters like `/`, `\`, `:`, `*`, `?`, `"`, `<`, `>`, `|` are invalid in Windows filenames
+- **Unicode characters**: Non-ASCII characters may cause encoding issues
+- **Excel sheet name limits**: Excel sheets are limited to 31 characters
+
+**Current Handling:**
+- Python script truncates sheet names to 31 characters
+- Removes "-EXCEL" suffix from sheet names
+- VBA suggests filenames based on sheet names
+- UTF-8 encoding handles most Unicode characters
+
+**Recommendations:**
+- **Rename files**: Consider renaming long Anki exports to shorter, simpler names
+- **Avoid special characters**: Use only letters, numbers, spaces, hyphens, and underscores
+- **Keep names short**: Aim for filenames under 50 characters for best compatibility
+
+**Example:**
+```
+Original: "Croatian Johns__Vocabulary__Food__Meat and Fish - meso i riba.txt"
+Better: "Croatian_Food_Meat_Fish.txt"
+```
 
 ## 🎛️ Quick Access Toolbar Setup
 
@@ -116,6 +159,10 @@ Anki Export (.txt) → Python Script → Excel File → VBA Export → Anki Impo
    - Import into Anki to verify compatibility
 2. **Test Croatian diacritics** preservation
 3. **Verify no remnant text** in exported files
+4. **Test filename consistency**: Verify exported files use original filename + "-CLEANED" suffix
+5. **Test VBA functions**: Verify ImportFromAnki, ExportToAnki, CheckRequirements work correctly
+6. **Test path detection**: Ensure VBA correctly finds Python script and project files
+7. **Test filename handling**: Verify long filenames and special characters are handled properly
 
 ### Priority 2: Documentation Updates
 1. **Update README.md** with Quick Access Toolbar setup instructions
@@ -134,4 +181,4 @@ Anki Export (.txt) → Python Script → Excel File → VBA Export → Anki Impo
 
 ---
 
-**Last Updated**: December 2024 
+**Last Updated**: January 2025 

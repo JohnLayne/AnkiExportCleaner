@@ -4,7 +4,7 @@
 #notetype column:2
 #deck column:3
 #tags column:9
-v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinima	(mr) bosiljaksss	basil	[sound:bosiljak.mp3]			
+v,Cc7]K_>Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinima	(mr) bosiljak	basil	[sound:bosiljak.mp3]			
 Bc$xz)k^S_	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinima	(mr) cimet	cinnamon	[sound:cimet.mp3]			
 Ewn.8ed*Nx	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinima	(mr) kari	curry	[sound:kari.mp3]			
 NsntHPqy3G	JohnsLanguageNote	Croatian Johns::Vocabulary::Food::Spices - začinima	(mr) komorač	fennel	[sound:komorač-120b65ada7219c736b437552a4f6ea70ead95c8f.mp3]			

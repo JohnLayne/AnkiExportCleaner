@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui">
+  <ribbon>
+    <tabs>
+      <tab id="AnkiTools" label="Anki Tools">
+        <group id="AnkiGroup" label="Anki Operations">
+          <button id="ImportAnki" 
+                  label="Import from Anki" 
+                  size="large"
+                  onAction="ImportFromAnki"
+                  imageMso="ImportExcel"/>
+          <button id="ExportAnki" 
+                  label="Export to Anki" 
+                  size="large"
+                  onAction="ExportToAnki"
+                  imageMso="ExportExcel"/>
+          <button id="ValidateAnki" 
+                  label="Validate Format" 
+                  size="normal"
+                  onAction="ValidateAnkiFormat"
+                  imageMso="DataValidation"/>
+        </group>
+        <group id="HelpGroup" label="Help &amp; Setup">
+          <button id="CheckRequirements" 
+                  label="Check Requirements" 
+                  size="normal"
+                  onAction="CheckRequirements"
+                  imageMso="Help"/>
+          <button id="ShowHelp" 
+                  label="Show Help" 
+                  size="normal"
+                  onAction="ShowAnkiHelp"
+                  imageMso="Help"/>
+        </group>
+      </tab>
+    </tabs>
+  </ribbon>
+</customUI> 

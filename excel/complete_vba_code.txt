@@ -13,7 +13,7 @@ Public Sub ImportFromAnki()
     Dim pythonPath As String
     Dim scriptPath As String
     Dim command As String
-    Dim result As Integer
+    Dim result As Long
     
     ' Get Anki export file from user
     ankiFile = Application.GetOpenFilename("Text Files (*.txt),*.txt", , "Select Anki Export File")
@@ -29,11 +29,11 @@ Public Sub ImportFromAnki()
         Exit Sub
     End If
     
-    ' Get script path (use project root directory)
-    scriptPath = "C:\Users\JohnL\DevProjects\AnkiExportCleaner\" & PYTHON_SCRIPT
-    If Dir(scriptPath) = "" Then
-        MsgBox "Python script not found: " & scriptPath & vbCrLf & _
-               "Please ensure anki_excel_tool.py is in the project root directory.", vbCritical
+    ' Get script path (use relative path from Excel file location)
+    scriptPath = GetScriptPath()
+    If scriptPath = "" Then
+        MsgBox "Python script not found. Please ensure anki_excel_tool.py is in the project root directory." & vbCrLf & _
+               "Expected location: " & GetProjectRoot() & "\" & PYTHON_SCRIPT, vbCritical
         Exit Sub
     End If
     
@@ -88,8 +88,14 @@ Public Sub ExportToAnki()
     ' Get current worksheet
     Set currentSheet = ActiveSheet
     
-    ' Get save location
-    outputFile = Application.GetSaveAsFilename(InitialFileName:=currentSheet.Name & "-ANKI.txt", _
+    ' Get save location - strip "-EXCEL" from filename if present
+    Dim suggestedName As String
+    suggestedName = currentSheet.Name
+    If Right(suggestedName, 6) = "-EXCEL" Then
+        suggestedName = Left(suggestedName, Len(suggestedName) - 6)
+    End If
+    
+    outputFile = Application.GetSaveAsFilename(InitialFileName:=suggestedName & "-CLEANED.txt", _
                                              FileFilter:="Text Files (*.txt),*.txt", _
                                              Title:="Save Anki File As")
     If outputFile = "False" Then
@@ -175,17 +181,22 @@ Private Function GetPythonPath() As String
     Dim pythonPaths() As String
     Dim path As Variant
     Dim testPath As String
+    Dim result As Long
     
-    ' Common Python paths
+    ' Common Python paths (in order of preference)
     pythonPaths = Split("python.exe,py.exe,python3.exe,py -3", ",")
     
     ' Test each path
     For Each path In pythonPaths
         testPath = Trim(path)
-        If Shell(testPath & " --version", vbHide) <> 0 Then
+        ' Simple test - just try to run Python
+        On Error Resume Next
+        result = Shell(testPath & " --version", vbHide)
+        If Err.Number = 0 And result > 0 Then
             GetPythonPath = testPath
             Exit Function
         End If
+        On Error GoTo 0
     Next path
     
     ' If not found, return empty string
@@ -237,6 +248,37 @@ Public Sub ValidateAnkiFormat()
     End If
 End Sub
 
+' Function to check system requirements
+Public Sub CheckRequirements()
+    Dim pythonPath As String
+    Dim scriptPath As String
+    Dim missingItems As String
+    
+    missingItems = ""
+    
+    ' Check Python
+    pythonPath = GetPythonPath()
+    If pythonPath = "" Then
+        missingItems = missingItems & "• Python is not installed or not in PATH" & vbCrLf
+    End If
+    
+    ' Check Python script
+    scriptPath = GetScriptPath()
+    If scriptPath = "" Then
+        missingItems = missingItems & "• Python script (anki_excel_tool.py) not found" & vbCrLf
+    End If
+    
+    ' Show results
+    If missingItems = "" Then
+        MsgBox "All requirements are met!" & vbCrLf & vbCrLf & _
+               "Python: " & pythonPath & vbCrLf & _
+               "Script: " & scriptPath, vbInformation, "System Check"
+    Else
+        MsgBox "Missing requirements:" & vbCrLf & vbCrLf & missingItems & vbCrLf & _
+               "Please install missing components before using Anki Tools.", vbExclamation, "System Check"
+    End If
+End Sub
+
 ' Help function
 Public Sub ShowAnkiHelp()
     Dim helpText As String
@@ -260,7 +302,71 @@ Public Sub ShowAnkiHelp()
                "REQUIREMENTS:" & vbCrLf & _
                "- Python installed and in PATH" & vbCrLf & _
                "- anki_excel_tool.py in project root directory" & vbCrLf & _
-               "- Macros enabled in Excel"
+               "- Macros enabled in Excel" & vbCrLf & vbCrLf & _
+               "TROUBLESHOOTING:" & vbCrLf & _
+               "- Use 'Check Requirements' to verify system setup" & vbCrLf & _
+               "- Ensure Excel file is in the excel/ subdirectory"
     
     MsgBox helpText, vbInformation, "Anki Tools Help"
-End Sub 
+End Sub
+
+' Debug function to check paths
+Public Sub DebugPaths()
+    Dim excelPath As String
+    Dim projectRoot As String
+    Dim scriptPath As String
+    
+    excelPath = ThisWorkbook.Path
+    projectRoot = GetProjectRoot()
+    scriptPath = GetScriptPath()
+    
+    MsgBox "Excel Path: " & excelPath & vbCrLf & _
+           "Project Root: " & projectRoot & vbCrLf & _
+           "Script Path: " & scriptPath & vbCrLf & _
+           "Script Exists: " & (Dir(scriptPath) <> ""), vbInformation, "Path Debug"
+End Sub
+
+' Helper function to get the project root directory
+Private Function GetProjectRoot() As String
+    Dim projectRoot As String
+    
+    ' Try to find the project root by looking for the Python script
+    ' Start from the current directory and work backwards
+    projectRoot = CurDir()
+    
+    ' Check if we're in the project root (has anki_excel_tool.py)
+    If Dir(projectRoot & "\" & PYTHON_SCRIPT) <> "" Then
+        GetProjectRoot = projectRoot
+        Exit Function
+    End If
+    
+    ' Check if we're in the excel subdirectory
+    If Dir(projectRoot & "\..\" & PYTHON_SCRIPT) <> "" Then
+        GetProjectRoot = projectRoot & "\.."
+        Exit Function
+    End If
+    
+    ' If not found, try the actual project path
+    projectRoot = "C:\Users\JohnL\DevProjects\AnkiExportCleaner"
+    If Dir(projectRoot & "\" & PYTHON_SCRIPT) <> "" Then
+        GetProjectRoot = projectRoot
+        Exit Function
+    End If
+    
+    ' Fallback to current directory
+    GetProjectRoot = CurDir()
+End Function
+
+' Helper function to get the Python script path
+Private Function GetScriptPath() As String
+    Dim scriptPath As String
+    
+    scriptPath = GetProjectRoot() & "\" & PYTHON_SCRIPT
+    
+    ' Check if script exists
+    If Dir(scriptPath) <> "" Then
+        GetScriptPath = scriptPath
+    Else
+        GetScriptPath = ""
+    End If
+End Function 

@@ -310,7 +310,13 @@ class AnkiCleaner:
             # Create workbook and worksheet
             wb = Workbook()
             ws = wb.active
-            ws.title = "Anki Cards"
+            
+            # Use input filename (without extension) as sheet name
+            sheet_name = output_path.stem
+            # Excel sheet names have limitations - clean the name
+            sheet_name = sheet_name.replace("-EXCEL", "")  # Remove -EXCEL suffix
+            sheet_name = sheet_name[:31]  # Excel sheet names limited to 31 chars
+            ws.title = sheet_name
             
             # Define styles
             header_font = Font(bold=True, color="FFFFFF")
