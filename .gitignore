@@ -53,8 +53,35 @@ yarn-debug.log*
 yarn-error.log*
 .npm
 .yarn-integrity
+package-lock.json
 
-# Office Add-in build files
-AnkiTools/dist/
-AnkiTools/build/
-AnkiTools/.vscode/ 
+# Office Add-in build and development files
+AnkiTools/**/node_modules/
+AnkiTools/**/dist/
+AnkiTools/**/build/
+AnkiTools/**/.webpack/
+AnkiTools/**/uploads/
+AnkiTools/**/.office-addin-dev-certs/
+AnkiTools/**/.vscode/
+AnkiTools/**/.vs/
+AnkiTools/**/package-lock.json
+
+# Webpack and build outputs
+*.bundle.js
+*.bundle.js.map
+.cache/
+
+# Office Add-in debugging
+.office-addin-dev-certs/
+office-addin-dev-certs/
+
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Test/output files that should be in samples/
+test_output.xlsx
+*-TEST.txt
+*-OUTPUT.xlsx 

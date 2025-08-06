@@ -3,71 +3,112 @@
 ## 📊 Current Status
 
 ### ✅ Completed
-- **Core Functionality**: HTML cleaning, column preservation, UTF-8 encoding
-- **Excel Integration**: Python script with Excel export, VBA module
-- **Documentation**: README.md, file structure reorganization
-- **Excel File**: AnkiTool.xlsm with working VBA functions
-- **VBA Integration**: Complete VBA code with Import/Export functions working
-- **Testing**: Import function working, Export function working with UTF-8 encoding
-- **UI Setup**: Manual Quick Access Toolbar approach implemented (more reliable than custom ribbon)
-- **File Cleanup**: Removed redundant files and duplicate Excel files
+- **Core Python Functionality**: HTML cleaning, column preservation, UTF-8 encoding (tested with VBA approach)
+- **Office Add-ins Infrastructure**: Yeoman generator setup, project structure created
+- **Custom Ribbon Configuration**: manifest.xml configured with "Anki Tools" tab and four buttons
+- **Backend API Server**: Node.js Express server code written with filename validation
+- **Frontend Commands**: JavaScript functions written for ribbon button actions
+- **Documentation**: Comprehensive README.md, development docs, and structure documentation
+- **File Structure**: Clean git-friendly structure with proper .gitignore
+- **Filename Validation**: System to warn users about problematic Anki export filenames
 
-### 🔄 In Progress
-- **Final Testing**: Complete end-to-end workflow validation with Anki import
-- **User Validation**: Testing with real Anki exports and Croatian diacritics
+### 🔄 In Progress - CURRENT PHASE
+- **UNTESTED**: Office Add-in ribbon buttons have not been tested yet
+- **UNTESTED**: Excel integration with Office Add-ins approach not validated
+- **UNTESTED**: End-to-end workflow from ribbon buttons through Python script
 
-### 🚧 Pending
-- **Installation Package**: Complete user installation package
-- **Enhanced Features**: Batch processing, advanced validation, templates
-- **Future Custom Ribbon**: May revisit custom ribbon approach for advanced users
+### 🚧 Pending - Next Steps
+1. **IMMEDIATE**: Test Office Add-in deployment and ribbon button functionality
+2. **IMMEDIATE**: Validate Excel opens add-in correctly and shows custom ribbon
+3. **IMMEDIATE**: Test Import/Export buttons actually work with backend API
+4. **User Validation**: Test with real Anki exports and Croatian diacritics
+5. **Installation Package**: Create user installation guide
+6. **Enhanced Features**: File selection dialogs, progress indicators, batch processing
 
 ## 🎯 Roadmap
 
 ### Phase 1: Core Stability (Current)
-- [x] Complete VBA integration with Import/Export functions
-- [x] Fix Export function UTF-8 encoding issues
-- [x] Add instruction line filtering for clean Anki exports
-- [x] **Implement Quick Access Toolbar setup** (manual approach)
-- [x] Clean up redundant files and duplicates
-- [ ] Complete end-to-end testing with Anki import
-- [ ] Test VBA integration thoroughly
-- [ ] Validate with real user data
+- [x] **Office Add-ins Infrastructure**: Custom ribbon structure with Yeoman generator
+- [x] **Backend API Code**: Node.js Express server written (untested)
+- [x] **Four Ribbon Buttons Code**: Import, Export, Validate, Help functions written (untested)
+- [x] **File Structure**: Git-friendly structure with proper .gitignore
+- [x] **Documentation**: Updated README.md with Office Add-ins approach
+- [ ] **CRITICAL**: Test Office Add-in actually loads in Excel
+- [ ] **CRITICAL**: Test ribbon buttons appear and are clickable
+- [ ] **CRITICAL**: Test backend API server starts and responds
+- [ ] **CRITICAL**: Test end-to-end workflow actually works
+- [ ] Validate with real user data and Croatian diacritics
 - [ ] Fix any discovered issues
 
 ### Phase 2: User Experience (Next)
-- [ ] Create installation script/package
-- [ ] Improve error messages and user feedback
-- [ ] Create user guide with screenshots
+- [ ] **File Selection Dialogs**: Implement proper file picker in ribbon buttons
+- [ ] **Progress Indicators**: Show progress for long operations
+- [ ] **Error Handling**: Improve user feedback and error messages
+- [ ] **Installation Package**: Create easy installation process
 
 ### Phase 3: Advanced Features (Future)
-- [ ] Batch processing capabilities
-- [ ] Advanced Excel formatting options
-- [ ] Custom field validation rules
-- [ ] Template system for different note types
-- [ ] **Custom Ribbon Implementation**: Revisit automated ribbon setup for power users
+- [ ] **Batch Processing**: Process multiple files simultaneously
+- [ ] **Advanced Validation**: Custom field validation rules
+- [ ] **Template System**: Different note types and formatting options
+- [ ] **Configuration Options**: User preferences and settings
 
 ## 🛠️ Technical Notes
 
 ### Architecture
 ```
-Anki Export (.txt) → Python Script → Excel File → VBA Export → Anki Import (.txt)
+Anki Export (.txt) → Custom Ribbon → REST API → Python Script → Excel File → Ribbon Export → Anki Import (.txt)
 ```
 
 ### Key Components
-- **anki_excel_tool.py**: Main Python script with Excel export
-- **excel/AnkiTool.xlsm**: Ready-to-use Excel file with VBA functions
-- **excel/complete_vba_code.txt**: Complete VBA code for copy-paste
-- **Manual Quick Access Toolbar**: User sets up buttons manually in Excel (most reliable)
+- **anki_excel_tool.py**: Core Python script with Excel export
+- **AnkiTools/anki-tools/**: Office Add-in project structure
+- **manifest.xml**: Custom "Anki Tools" ribbon tab configuration
+- **commands.js**: JavaScript functions for ribbon buttons
+- **server.js**: Node.js backend with REST API
+- **excel/**: Alternative VBA approach (legacy support)
 
 ### Dependencies
 - Python 3.6+, openpyxl, chardet
-- Microsoft Excel with VBA enabled
+- Node.js 14+, Express.js, CORS, Multer
+- Microsoft Excel (desktop version)
+- Office.js API, Yeoman generator ecosystem
 
-### Known Limitations
-- **Long filenames**: Anki exports can have very long filenames that may exceed system limits
-- **Special characters**: Filenames with special characters (/, \, :, *, ?, ", <, >, |) can cause issues
+### Known Limitations & Critical User Warnings
+
+#### ⚠️ Anki Export Filename Issues (CRITICAL)
+**Anki automatically generates very long filenames that can cause system failures:**
+
+**Common Anki Export Patterns:**
+```
+❌ PROBLEMATIC: "Croatian Johns__Vocabulary__Food__Meat and Fish - meso i riba.txt"
+❌ PROBLEMATIC: "Japanese N5 Vocabulary - Chapter 1-5 Complete with Audio References.txt"
+❌ PROBLEMATIC: "Medical Terminology - Cardiovascular System - Terms and Definitions.txt"
+```
+
+**Issues Caused:**
+- **Windows path limits**: 260-character total path length limit
+- **Excel sheet names**: Limited to 31 characters
+- **Special characters**: Double underscores, spaces, and special chars cause errors
+- **Zip compatibility**: Long names break compression/extraction
+- **Git issues**: Some Git operations fail with long paths
+
+**MANDATORY User Action:**
+```
+✅ RECOMMENDED: "Croatian_Food_Meat_Fish.txt"
+✅ RECOMMENDED: "Japanese_N5_Vocab_Ch1-5.txt" 
+✅ RECOMMENDED: "Medical_Cardio_Terms.txt"
+```
+
+**Filename Guidelines:**
+- **Length**: Keep under 50 characters total
+- **Characters**: Use only letters, numbers, underscores, hyphens
+- **No spaces**: Replace with underscores or hyphens
+- **No special chars**: Avoid /, \, :, *, ?, ", <, >, |, double underscores
+
+#### Technical Limitations
 - **Excel sheet names**: Limited to 31 characters and cannot contain certain characters
 - **Path length**: Windows has 260-character path limit (can be extended with registry changes)
+- **Unicode handling**: Most Unicode characters supported via UTF-8
 
 ## 🔧 VBA Code Maintenance
 
