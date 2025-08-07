@@ -1,41 +1,43 @@
-# Anki Export Cleaner - Modern Excel Integration
+# Anki Export Cleaner - Excel Integration
 
-A Python utility with Office Add-ins integration for editing Anki flashcard exports directly in Excel with a custom ribbon interface.
+A Python utility with Excel integration for editing Anki flashcard exports directly in Excel.
 
 ## 🎯 Purpose
 
-Streamlined workflow combining HTML cleaning with modern Excel integration. Users work in Excel with proper encoding handling and export back to Anki-compatible format using a professional custom ribbon interface.
+Streamlined workflow combining HTML cleaning with Excel integration. Users work in Excel with proper encoding handling and export back to Anki-compatible format.
 
 ## ✨ Features
 
-### ✅ Implemented & Tested (VBA Approach)
+### ✅ Working Solution (VBA Approach)
 - **HTML Content Extraction**: Removes HTML tags while preserving media links
 - **Automatic Encoding**: UTF-8 handling throughout
 - **Complete Column Preservation**: Maintains all original Anki columns
 - **Audio Reference Preservation**: Maintains `[sound:filename.mp3]` references
 - **File Naming**: Exports with -CLEANED suffix
+- **Custom Excel Ribbon**: Professional "Anki Tools" tab with import/export buttons
+- **Immediate Setup**: No development servers required
 
-### 🚧 Built but Untested (Office Add-ins Approach)
-- **Modern Excel Integration**: Office Add-ins with custom ribbon interface (code written, not tested)
-- **Custom Excel Ribbon**: Professional "Anki Tools" tab with 4 buttons (configured, not tested)
-- **GUID Preservation**: Maintains Anki note GUIDs (implemented in backend code)
-- **Hot-Reload Development**: Development server setup (not tested)
-- **REST API Backend**: Node.js server bridges Office Add-ins and Python processing (code written)
-- **Filename Validation**: Warns users about problematic Anki export filenames (implemented)
+### ❌ Failed Approach (Office Add-ins)
+- **Modern Excel Integration**: Office Add-ins with custom ribbon interface (built but failed)
+- **Complex Setup**: Required 3 different servers running simultaneously
+- **Protocol Issues**: HTTPS/HTTP mismatches between frontend and backend
+- **CORS Problems**: Cross-origin request issues in development
+- **Server Dependencies**: Overly complex for simple file processing task
 
 ## ⚠️ Current Status
 
-**IMPORTANT**: The Office Add-ins approach has been built but **NOT YET TESTED**. The ribbon buttons, backend API, and Excel integration exist as code but haven't been validated to work.
+**RECOMMENDED**: Use the **VBA approach** in `excel/AnkiTool_with_ribbon.xlsm` - it's fully tested and works immediately.
 
-**Working Alternative**: The VBA approach in the `excel/` directory is fully tested and functional.
-
-**Next Steps**: Test the Office Add-in deployment and ribbon functionality.
+**NOT RECOMMENDED**: The Office Add-ins approach in `AnkiTools/` was built but failed due to:
+- Complex multi-server setup requirements
+- HTTPS/HTTP protocol mismatches
+- CORS issues between frontend and backend
+- No real advantage over VBA for this use case
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Python 3.6+
-- Node.js 14+
 - Microsoft Excel (desktop version)
 - Dependencies: `pip install -r requirements.txt`
 
@@ -51,21 +53,10 @@ Streamlined workflow combining HTML cleaning with modern Excel integration. User
    pip install -r requirements.txt
    ```
 
-3. **Install Node.js dependencies**:
-   ```bash
-   cd AnkiTools/anki-tools
-   npm install
-   ```
-
-4. **Start the backend server**:
-   ```bash
-   npm run start:backend
-   ```
-
-5. **Start the Office Add-in development server**:
-   ```bash
-   npm start
-   ```
+3. **Open the Excel file**:
+   - Open `excel/AnkiTool_with_ribbon.xlsm`
+   - Look for the "Anki Tools" ribbon tab
+   - Ready to use immediately!
 
 ### Usage
 
@@ -77,7 +68,7 @@ Streamlined workflow combining HTML cleaning with modern Excel integration. User
    ```
    **Recommendation**: Keep filenames under 50 characters, use only letters, numbers, underscores, and hyphens.
 
-3. **Import to Excel**: Click "Import Anki" button in the custom "Anki Tools" ribbon tab
+3. **Import to Excel**: Click "Import Anki" button in the "Anki Tools" ribbon tab
 4. **Edit in Excel**: Make changes in familiar Excel interface
 5. **Export back to Anki**: Click "Export Anki" button in the ribbon
 6. **Import to Anki**: Use exported file to re-import (existing cards will be updated, not duplicated)
@@ -91,17 +82,18 @@ AnkiExportCleaner/
 ├── requirements.txt          # Python dependencies
 ├── .gitignore               # Git exclusions
 │
-├── AnkiTools/               # Office Add-in project
-│   └── anki-tools/          # Office Add-in files
+├── excel/                   # ✅ WORKING VBA APPROACH
+│   ├── AnkiTool_with_ribbon.xlsm  # Ready-to-use Excel file
+│   ├── AnkiTool.xlsm        # Alternative VBA file
+│   ├── complete_vba_code.txt # VBA code for manual setup
+│   └── ribbon.xml           # Custom ribbon configuration
+│
+├── AnkiTools/               # ❌ FAILED OFFICE ADD-INS APPROACH
+│   └── anki-tools/          # Office Add-in files (not recommended)
 │       ├── manifest.xml     # Add-in configuration
 │       ├── package.json     # Node.js dependencies
 │       ├── server.js        # Backend REST API server
 │       └── src/             # Add-in source code
-│           └── commands/    # Ribbon button functions
-│
-├── excel/                   # Excel VBA files (alternative approach)
-│   ├── AnkiTool.xlsm        # VBA-based Excel file
-│   └── complete_vba_code.txt # VBA code for manual setup
 │
 ├── docs/                    # Documentation
 │   └── DEVELOPMENT.md       # Current development status
@@ -113,11 +105,11 @@ AnkiExportCleaner/
 ## 🔧 How It Works
 
 ### Workflow
-1. **VBA Import**: Quick Access Toolbar button calls Python script
+1. **VBA Import**: Ribbon button calls Python script
 2. **HTML Cleaning**: Python removes HTML tags, preserves media links
 3. **Excel Conversion**: Converts to Excel format with formatting
 4. **Excel Editing**: Users work in native Excel format
-5. **VBA Export**: Quick Access Toolbar button converts back to Anki format with UTF-8
+5. **VBA Export**: Ribbon button converts back to Anki format with UTF-8
 6. **Anki Import**: Clean file ready for Anki
 
 ### Key Components
@@ -129,7 +121,7 @@ AnkiExportCleaner/
 - Comprehensive error handling
 
 #### Excel Integration
-- **AnkiTool.xlsm**: Ready-to-use Excel file with instructions
+- **AnkiTool_with_ribbon.xlsm**: Ready-to-use Excel file with custom ribbon
 - **Module1.bas**: VBA functions for import/export
 - **Ribbon.xml**: Custom "Anki Tools" ribbon tab
 
@@ -199,28 +191,18 @@ This project builds upon the excellent work of several open-source communities:
 - **AnkiWeb** - The community platform for sharing and discovering Anki decks
 - **AnkiDroid** - The Android app that brings Anki to mobile devices
 
-### Microsoft Office Add-ins Platform
-- **Office.js** - The JavaScript API that enables powerful Excel integrations
-- **Office Add-ins Documentation** - Comprehensive guides and examples
-
-### Yeoman Generator Ecosystem
-- **Yeoman** - The web app scaffolding tool that made this project possible
-- **generator-office** - The official Office Add-ins generator created by Microsoft
-- **Office Add-ins CLI tools** - Command-line tools for development and deployment
-
-### Node.js and Express.js
-- **Node.js** - The JavaScript runtime that powers our backend server
-- **Express.js** - The web framework that enables our REST API
+### Microsoft Office Platform
+- **VBA (Visual Basic for Applications)** - The automation language that enables Excel integration
+- **Office Ribbon XML** - The framework for custom Excel ribbon interfaces
 
 ### Python Ecosystem
 - **openpyxl** - The library that enables Excel file creation and manipulation
 - **Python Standard Library** - Core functionality for file processing and encoding
 
 ### Development Tools
-- **Webpack** - Module bundler for the Office Add-in
-- **ESLint** - Code quality and consistency
-- **Babel** - JavaScript transpilation
+- **Git** - Version control system
+- **GitHub** - Code hosting and collaboration platform
 
 ---
 
-**Happy studying with modern Excel integration! 📚✨** 
+**Happy studying with Excel integration! 📚✨** 

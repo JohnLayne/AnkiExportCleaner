@@ -7,6 +7,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const https = require('https');
 const { spawn } = require('child_process');
 const multer = require('multer');
 
@@ -82,37 +83,48 @@ function generateFilenameRecommendation(originalFilename) {
  * Import Anki file endpoint
  * POST /api/import
  */
-app.post('/api/import', upload.single('ankiFile'), async (req, res) => {
+app.post('/api/import', upload.single('file'), async (req, res) => {
   try {
     console.log('Import request received');
     
-    let filename = 'Unknown_File.txt';
-    let filenameValidation = null;
-    
-    // If file uploaded, validate filename
-    if (req.file) {
-      filename = req.file.originalname;
-      filenameValidation = validateAnkiFilename(filename);
-      
-      if (!filenameValidation.isValid) {
-        console.warn('Problematic filename detected:', filename);
-        console.warn('Issues:', filenameValidation.issues);
-      }
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
     }
     
-    // For now, return sample data with filename validation
-    const sampleData = {
-      headers: ['Front', 'Back', 'Tags', 'Type'],
-      rows: [
-        ['Hello', 'Pozdrav', 'greetings', 'Basic'],
-        ['Goodbye', 'Doviđenja', 'greetings', 'Basic'],
-        ['Thank you', 'Hvala', 'courtesy', 'Basic']
-      ],
+    const filename = req.file.originalname;
+    const filenameValidation = validateAnkiFilename(filename);
+    
+    if (!filenameValidation.isValid) {
+      console.warn('Problematic filename detected:', filename);
+      console.warn('Issues:', filenameValidation.issues);
+    }
+    
+    // Read the uploaded file content
+    const fileContent = req.file.buffer.toString('utf8');
+    console.log('File content length:', fileContent.length);
+    
+    // Parse the Anki export format (tab-separated values)
+    const lines = fileContent.split('\n').filter(line => line.trim());
+    
+    if (lines.length === 0) {
+      return res.status(400).json({ error: 'File appears to be empty' });
+    }
+    
+    // Parse headers and data
+    const headers = lines[0].split('\t');
+    const rows = lines.slice(1).map(line => line.split('\t'));
+    
+    console.log('Parsed headers:', headers);
+    console.log('Parsed rows:', rows.length);
+    
+    const result = {
+      headers: headers,
+      rows: rows,
       filename: filename,
       filenameValidation: filenameValidation
     };
     
-    res.json(sampleData);
+    res.json(result);
     
   } catch (error) {
     console.error('Import error:', error);
@@ -227,7 +239,7 @@ app.use((error, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start server
+// Start server with HTTP (simpler for development)
 app.listen(PORT, () => {
   console.log(`Anki Tools Backend Server running on http://localhost:${PORT}`);
   console.log(`Project root: ${projectRoot}`);

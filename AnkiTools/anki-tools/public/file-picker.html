@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Select Anki File</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .file-input {
+            margin: 20px 0;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+        input[type="file"]:hover {
+            border-color: #0078d4;
+        }
+        .button {
+            background: #0078d4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .button:hover {
+            background: #106ebe;
+        }
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .info {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Select Anki Export File</h2>
+        
+        <div class="info">
+            <strong>Supported formats:</strong> .txt files exported from Anki<br>
+            <strong>Note:</strong> Choose a file with your Anki flashcard data
+        </div>
+        
+        <div class="file-input">
+            <input type="file" id="fileInput" accept=".txt" />
+        </div>
+        
+        <button class="button" id="importBtn" disabled>Import File</button>
+        <button class="button" id="cancelBtn" style="background: #666; margin-left: 10px;">Cancel</button>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const importBtn = document.getElementById('importBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                importBtn.disabled = false;
+            } else {
+                importBtn.disabled = true;
+            }
+        });
+        
+        importBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+            
+            try {
+                // Send file to parent (Office Add-in)
+                const message = {
+                    type: 'fileSelected',
+                    file: file
+                };
+                
+                Office.context.ui.messageParent(JSON.stringify(message));
+            } catch (error) {
+                console.error('Error sending file:', error);
+                alert('Error processing file. Please try again.');
+            }
+        });
+        
+        cancelBtn.addEventListener('click', () => {
+            Office.context.ui.messageParent(JSON.stringify({ type: 'cancelled' }));
+        });
+    </script>
+</body>
+</html>
