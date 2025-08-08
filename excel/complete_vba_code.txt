@@ -15,7 +15,13 @@ Public Sub ImportFromAnki()
     Dim command As String
     Dim result As Long
     
-    ' Get Anki export file from user
+    ' Get Anki export file from user - default to Croatian Language folder
+    Dim defaultPath As String
+    defaultPath = "C:\Users\JohnL\OneDrive\Media\Croatian Language\ANKI_EXPORT_ADDED_PRONUNCIATION\"
+    
+    ' Change to the Croatian Language directory before opening file picker
+    ChDir defaultPath
+    
     ankiFile = Application.GetOpenFilename("Text Files (*.txt),*.txt", , "Select Anki Export File")
     If ankiFile = "False" Then
         MsgBox "No file selected. Operation cancelled.", vbInformation
@@ -94,6 +100,13 @@ Public Sub ExportToAnki()
     If Right(suggestedName, 6) = "-EXCEL" Then
         suggestedName = Left(suggestedName, Len(suggestedName) - 6)
     End If
+    
+    ' Default to Croatian Language folder for save location
+    Dim defaultPath As String
+    defaultPath = "C:\Users\JohnL\OneDrive\Media\Croatian Language\ANKI_EXPORT_ADDED_PRONUNCIATION\"
+    
+    ' Change to the Croatian Language directory before opening save dialog
+    ChDir defaultPath
     
     outputFile = Application.GetSaveAsFilename(InitialFileName:=suggestedName & "-CLEANED.txt", _
                                              FileFilter:="Text Files (*.txt),*.txt", _
