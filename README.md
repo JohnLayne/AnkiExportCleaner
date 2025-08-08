@@ -8,7 +8,7 @@ Streamlined workflow combining HTML cleaning with Excel integration. Users work 
 
 ## ✨ Features
 
-### ✅ Working Solution (VBA Approach)
+### ✅ Working Solution (VBA + Python)
 - **HTML Content Extraction**: Removes HTML tags while preserving media links
 - **Automatic Encoding**: UTF-8 handling throughout
 - **Complete Column Preservation**: Maintains all original Anki columns
@@ -16,23 +16,7 @@ Streamlined workflow combining HTML cleaning with Excel integration. Users work 
 - **File Naming**: Exports with -CLEANED suffix
 - **Custom Excel Ribbon**: Professional "Anki Tools" tab with import/export buttons
 - **Immediate Setup**: No development servers required
-
-### ❌ Failed Approach (Office Add-ins)
-- **Modern Excel Integration**: Office Add-ins with custom ribbon interface (built but failed)
-- **Complex Setup**: Required 3 different servers running simultaneously
-- **Protocol Issues**: HTTPS/HTTP mismatches between frontend and backend
-- **CORS Problems**: Cross-origin request issues in development
-- **Server Dependencies**: Overly complex for simple file processing task
-
-## ⚠️ Current Status
-
-**RECOMMENDED**: Use the **VBA approach** in `excel/AnkiTool_with_ribbon.xlsm` - it's fully tested and works immediately.
-
-**NOT RECOMMENDED**: The Office Add-ins approach in `AnkiTools/` was built but failed due to:
-- Complex multi-server setup requirements
-- HTTPS/HTTP protocol mismatches
-- CORS issues between frontend and backend
-- No real advantage over VBA for this use case
+- **Optimized for Real Usage**: Hardcoded paths enable quick deployment in production environment
 
 ## 🚀 Quick Start
 
@@ -54,24 +38,24 @@ Streamlined workflow combining HTML cleaning with Excel integration. Users work 
    ```
 
 3. **Open the Excel file**:
-   - Open `excel/AnkiTool_with_ribbon.xlsm`
+   - Open `AnkiTool_Exporter.xlsm`
    - Look for the "Anki Tools" ribbon tab
    - Ready to use immediately!
 
-### Usage
+### Alternative Setup: Manual VBA Installation
 
-1. **Export from Anki**: File → Export → "Notes in Plain Text (.txt)" → Check all boxes
-2. **⚠️ IMPORTANT - Rename Long Filenames**: Anki exports often have very long names that can cause issues:
-   ```
-   ❌ BAD:  "Croatian Johns__Vocabulary__Food__Meat and Fish - meso i riba.txt"
-   ✅ GOOD: "Croatian_Food_Meat_Fish.txt"
-   ```
-   **Recommendation**: Keep filenames under 50 characters, use only letters, numbers, underscores, and hyphens.
+If you prefer to add the functionality to your own Excel file:
 
-3. **Import to Excel**: Click "Import Anki" button in the "Anki Tools" ribbon tab
-4. **Edit in Excel**: Make changes in familiar Excel interface
-5. **Export back to Anki**: Click "Export Anki" button in the ribbon
-6. **Import to Anki**: Use exported file to re-import (existing cards will be updated, not duplicated)
+1. **Open Excel** and create a new workbook or open an existing one
+2. **Enable Developer Tab**: File → Options → Customize Ribbon → Check "Developer"
+3. **Open VBA Editor**: Developer tab → Visual Basic
+4. **Insert Module**: Right-click on your workbook → Insert → Module
+5. **Copy VBA Code**: 
+   - Open `complete_vba_code.txt` in a text editor
+   - Copy all the code
+   - Paste it into the VBA module
+6. **Save as Macro-Enabled**: File → Save As → Excel Macro-Enabled Workbook (.xlsm)
+7. **Add Ribbon Buttons**: Use the functions in the VBA code to create custom ribbon buttons
 
 ## 📁 File Structure
 
@@ -79,27 +63,20 @@ Streamlined workflow combining HTML cleaning with Excel integration. Users work 
 AnkiExportCleaner/
 ├── README.md                 # This file
 ├── anki_excel_tool.py        # Core Python script
+├── complete_vba_code.txt     # VBA source code for manual installation
+├── AnkiTool_Exporter.xlsm    # Ready-to-use Excel file
 ├── requirements.txt          # Python dependencies
 ├── .gitignore               # Git exclusions
 │
-├── excel/                   # ✅ WORKING VBA APPROACH
-│   ├── AnkiTool_with_ribbon.xlsm  # Ready-to-use Excel file
-│   ├── AnkiTool.xlsm        # Alternative VBA file
-│   ├── complete_vba_code.txt # VBA code for manual setup
-│   └── ribbon.xml           # Custom ribbon configuration
-│
-├── AnkiTools/               # ❌ FAILED OFFICE ADD-INS APPROACH
-│   └── anki-tools/          # Office Add-in files (not recommended)
-│       ├── manifest.xml     # Add-in configuration
-│       ├── package.json     # Node.js dependencies
-│       ├── server.js        # Backend REST API server
-│       └── src/             # Add-in source code
-│
 ├── docs/                    # Documentation
-│   └── DEVELOPMENT.md       # Current development status
+│   └── DEVELOPMENT.md       # Technical development status
 │
-└── samples/                 # Sample files
-    └── Croatian_Spices.txt  # Sample input with diacritics
+├── samples/                 # Sample files
+│   ├── input/              # Raw Anki export files
+│   ├── output/             # Processed output files
+│   └── problematic/        # Examples of problematic filenames
+│
+└── tests/                  # Unit tests (future)
 ```
 
 ## 🔧 How It Works
@@ -121,9 +98,9 @@ AnkiExportCleaner/
 - Comprehensive error handling
 
 #### Excel Integration
-- **AnkiTool_with_ribbon.xlsm**: Ready-to-use Excel file with custom ribbon
-- **Module1.bas**: VBA functions for import/export
-- **Ribbon.xml**: Custom "Anki Tools" ribbon tab
+- **AnkiTool_Exporter.xlsm**: Ready-to-use Excel file with custom ribbon
+- **complete_vba_code.txt**: VBA source code for manual installation or customization
+- **Custom Ribbon**: "Anki Tools" ribbon tab with import/export buttons
 
 ## 🛠️ Technical Details
 
@@ -138,6 +115,46 @@ AnkiExportCleaner/
 - VBA automation for streamlined process
 - Custom ribbon for professional integration
 - Automatic UTF-8 conversion
+
+### Hardcoded Paths - Intentional Design
+
+The application uses hardcoded paths for optimal performance in a real production environment:
+
+- **Python Script Path**: `C:\Users\JohnL\DevProjects\AnkiExportCleaner\anki_excel_tool.py`
+- **Default File Location**: `C:\Users\JohnL\OneDrive\Media\Croatian Language\ANKI_EXPORT_ADDED_PRONUNCIATION\`
+
+**Why Hardcoded Paths?**
+- **Speed**: No path resolution overhead during file operations
+- **Reliability**: Eliminates path-related errors in production
+- **User Experience**: Direct access to commonly used folders
+- **Performance**: Faster file operations without dynamic path calculations
+
+**For Custom Deployment:**
+Edit the paths in `complete_vba_code.txt` to match your environment:
+- Update `GetProjectRoot()` function for your project location
+- Modify `defaultPath` variables for your preferred file locations
+
+## ⚠️ CRITICAL: Anki Export Filename Issues
+
+### The Problem
+**Anki automatically generates very long, problematic filenames that can break the workflow:**
+
+```
+❌ TYPICAL ANKI EXPORT: "Croatian Johns__Vocabulary__Food__Meat and Fish - meso i riba.txt"
+   - 74 characters long
+   - Contains double underscores
+   - Contains spaces and special characters
+   - Exceeds Excel sheet name limits (31 chars)
+   - Can cause Windows path length issues
+```
+
+### Recommended User Workflow
+```
+1. Export from Anki → "Croatian Johns__Vocabulary__Food__Meat and Fish - meso i riba.txt"
+2. ⚠️ RENAME FILE → "Croatian_Food_Meat_Fish.txt"  
+3. Import to Excel → Success with no warnings
+4. Edit and Export → "Croatian_Food_Meat_Fish-CLEANED.txt"
+```
 
 ## 📊 Complete Workflow
 
@@ -193,7 +210,6 @@ This project builds upon the excellent work of several open-source communities:
 
 ### Microsoft Office Platform
 - **VBA (Visual Basic for Applications)** - The automation language that enables Excel integration
-- **Office Ribbon XML** - The framework for custom Excel ribbon interfaces
 
 ### Python Ecosystem
 - **openpyxl** - The library that enables Excel file creation and manipulation

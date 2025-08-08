@@ -1,12 +1,12 @@
 # Current dependencies
-chardet>=5.0.0
-openpyxl>=3.0.0                    # For encoding detection and conversion
+openpyxl>=3.0.0                    # For Excel file handling
 
 # Future enhancement dependencies (commented out)
-# beautifulsoup4>=4.9.0          # For better HTML parsing
-# click>=8.0.0                   # For command-line interface
-# pandas>=1.3.0                  # For data manipulation and CSV handling
-# pytest>=6.0.0                  # For testing
-# black>=21.0.0                  # For code formatting
-# flake8>=3.8.0                  # For linting
-# mypy>=0.800                    # For type checking 
+# chardet>=5.0.0                   # For encoding detection
+# beautifulsoup4>=4.9.0            # For better HTML parsing
+# click>=8.0.0                     # For command-line interface
+# pandas>=1.3.0                    # For data manipulation
+# pytest>=6.0.0                    # For testing
+# black>=21.0.0                    # For code formatting
+# flake8>=3.8.0                    # For linting
+# mypy>=0.800                      # For type checking 
