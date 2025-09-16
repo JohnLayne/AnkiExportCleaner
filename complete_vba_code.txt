@@ -43,10 +43,13 @@ Public Sub ImportFromAnki()
         Exit Sub
     End If
     
-    ' Generate Excel output path
-    excelFile = Replace(ankiFile, ".txt", "-EXCEL.xlsx")
+    ' Generate Excel output path (use samples/output directory)
+    Dim inputFileName As String
+    inputFileName = Mid(ankiFile, InStrRev(ankiFile, "\") + 1)
+    inputFileName = Replace(inputFileName, ".txt", "-EXCEL.xlsx")
+    excelFile = GetProjectRoot() & "\samples\output\" & inputFileName
     
-    ' Build command
+    ' Build command (properly quote all paths with spaces)
     command = """" & pythonPath & """ """ & scriptPath & """ """ & ankiFile & """ --excel --output """ & excelFile & """"
     
     ' Show progress
@@ -56,18 +59,26 @@ Public Sub ImportFromAnki()
     ' Execute Python script
     result = Shell(command, vbNormalFocus)
     
-    ' Wait a moment for the script to complete
-    Application.Wait Now + TimeValue("00:00:03")
+    ' Wait for the script to complete (increased wait time)
+    Application.Wait Now + TimeValue("00:00:10")
     
     ' Check if Excel file was created
     If Dir(excelFile) <> "" Then
-        ' Open the created Excel file
+        ' Try to open the created Excel file
+        On Error Resume Next
         Workbooks.Open excelFile
-        Application.StatusBar = False
-        MsgBox "Anki file successfully converted to Excel format!" & vbCrLf & "File: " & excelFile, vbInformation
+        If Err.Number <> 0 Then
+            Application.StatusBar = False
+            MsgBox "Error opening Excel file: " & Err.Description & vbCrLf & "File path: " & excelFile, vbCritical
+            Err.Clear
+        Else
+            Application.StatusBar = False
+            MsgBox "Anki file successfully converted to Excel format!" & vbCrLf & "File: " & excelFile, vbInformation
+        End If
+        On Error GoTo ErrorHandler
     Else
         Application.StatusBar = False
-        MsgBox "Error: Excel file was not created. Please check the Python script output.", vbCritical
+        MsgBox "Error: Excel file was not created. Please check the Python script output." & vbCrLf & "Expected file: " & excelFile, vbCritical
     End If
     
     Application.ScreenUpdating = True
@@ -143,20 +154,34 @@ Public Sub ExportToAnki()
         Dim rowData As String
         rowData = ""
         
-        For j = 1 To lastCol
-            ' Get cell value and convert to string safely
-            cellValue = currentSheet.Cells(i, j).Value
-            If IsNull(cellValue) Or IsEmpty(cellValue) Or cellValue = "" Then
-                cellValue = ""
+        ' Map Excel columns to Anki columns (ensure we have 9 columns)
+        Dim ankiFields(1 To 9) As String
+        
+        ' Column 1: GUID
+        ankiFields(1) = GetCellValue(currentSheet.Cells(i, 1))
+        ' Column 2: Note Type
+        ankiFields(2) = GetCellValue(currentSheet.Cells(i, 2))
+        ' Column 3: Deck
+        ankiFields(3) = GetCellValue(currentSheet.Cells(i, 3))
+        ' Column 4: Croatian
+        ankiFields(4) = GetCellValue(currentSheet.Cells(i, 4))
+        ' Column 5: English
+        ankiFields(5) = GetCellValue(currentSheet.Cells(i, 5))
+        ' Column 6: Audio
+        ankiFields(6) = GetCellValue(currentSheet.Cells(i, 6))
+        ' Column 7: Empty
+        ankiFields(7) = ""
+        ' Column 8: Empty
+        ankiFields(8) = ""
+        ' Column 9: Tags
+        ankiFields(9) = GetCellValue(currentSheet.Cells(i, 9))
+        
+        ' Build the row with tab separators
+        For j = 1 To 9
+            If j < 9 Then
+                rowData = rowData & ankiFields(j) & vbTab
             Else
-                cellValue = Trim(CStr(cellValue))
-            End If
-            
-            ' Add tab separator (except for last column)
-            If j < lastCol Then
-                rowData = rowData & cellValue & vbTab
-            Else
-                rowData = rowData & cellValue
+                rowData = rowData & ankiFields(j)
             End If
         Next j
         
@@ -382,4 +407,175 @@ Private Function GetScriptPath() As String
     Else
         GetScriptPath = ""
     End If
-End Function 
+End Function
+
+' Debug function to test file paths
+Public Sub TestFilePaths()
+    Dim ankiFile As String
+    Dim excelFile As String
+    Dim inputFileName As String
+    
+    ' Test with the human body file
+    ankiFile = GetProjectRoot() & "\samples\input\Croatian Johns__Vocabulary__Human body.txt"
+    
+    ' Generate Excel output path
+    inputFileName = Mid(ankiFile, InStrRev(ankiFile, "\") + 1)
+    inputFileName = Replace(inputFileName, ".txt", "-EXCEL.xlsx")
+    excelFile = GetProjectRoot() & "\samples\output\" & inputFileName
+    
+    MsgBox "Input file: " & ankiFile & vbCrLf & _
+           "Input exists: " & (Dir(ankiFile) <> "") & vbCrLf & _
+           "Output file: " & excelFile & vbCrLf & _
+           "Output exists: " & (Dir(excelFile) <> ""), vbInformation, "Path Test"
+End Sub
+
+' Debug function to test opening Excel files
+Public Sub TestOpenExcel()
+    Dim testFile As String
+    testFile = GetProjectRoot() & "\samples\output\Croatian Johns__Vocabulary__Human body-DEBUG.xlsx"
+    
+    MsgBox "Attempting to open: " & testFile & vbCrLf & _
+           "File exists: " & (Dir(testFile) <> ""), vbInformation, "Open Test"
+    
+    On Error Resume Next
+    Workbooks.Open testFile
+    If Err.Number <> 0 Then
+        MsgBox "Error opening file: " & Err.Description & vbCrLf & "Error Number: " & Err.Number, vbCritical
+        Err.Clear
+    Else
+        MsgBox "Successfully opened file!", vbInformation
+    End If
+    On Error GoTo 0
+End Sub
+
+' Test opening the working file
+Public Sub TestOpenWorkingFile()
+    Dim testFile As String
+    testFile = GetProjectRoot() & "\samples\output\Croatian_Spices-TEST.xlsx"
+    
+    MsgBox "Attempting to open: " & testFile & vbCrLf & _
+           "File exists: " & (Dir(testFile) <> ""), vbInformation, "Working File Test"
+    
+    On Error Resume Next
+    Workbooks.Open testFile
+    If Err.Number <> 0 Then
+        MsgBox "Error opening file: " & Err.Description & vbCrLf & "Error Number: " & Err.Number, vbCritical
+        Err.Clear
+    Else
+        MsgBox "Successfully opened file!", vbInformation
+    End If
+    On Error GoTo 0
+End Sub
+
+' Test opening the fixed Human Body file
+Public Sub TestOpenFixedFile()
+    Dim testFile As String
+    testFile = GetProjectRoot() & "\samples\output\Croatian Johns__Vocabulary__Human body-FIXED2.xlsx"
+    
+    MsgBox "Attempting to open: " & testFile & vbCrLf & _
+           "File exists: " & (Dir(testFile) <> ""), vbInformation, "Fixed File Test"
+    
+    On Error Resume Next
+    Workbooks.Open testFile
+    If Err.Number <> 0 Then
+        MsgBox "Error opening file: " & Err.Description & vbCrLf & "Error Number: " & Err.Number, vbCritical
+        Err.Clear
+    Else
+        MsgBox "Successfully opened file!", vbInformation
+    End If
+    On Error GoTo 0
+End Sub
+
+' Test opening the small Human Body file
+Public Sub TestOpenSmallFile()
+    Dim testFile As String
+    testFile = GetProjectRoot() & "\samples\output\Croatian Johns__Vocabulary__Human body-SMALL.xlsx"
+    
+    MsgBox "Attempting to open: " & testFile & vbCrLf & _
+           "File exists: " & (Dir(testFile) <> ""), vbInformation, "Small File Test"
+    
+    On Error Resume Next
+    Workbooks.Open testFile
+    If Err.Number <> 0 Then
+        MsgBox "Error opening file: " & Err.Description & vbCrLf & "Error Number: " & Err.Number, vbCritical
+        Err.Clear
+    Else
+        MsgBox "Successfully opened file!", vbInformation
+    End If
+    On Error GoTo 0
+End Sub
+
+' Test opening a chunked file
+Public Sub TestOpenChunkedFile()
+    Dim testFile As String
+    testFile = GetProjectRoot() & "\samples\output\Croatian Johns__Vocabulary__Human body-CHUNKED-EXCEL-Part01.xlsx"
+    
+    MsgBox "Attempting to open: " & testFile & vbCrLf & _
+           "File exists: " & (Dir(testFile) <> ""), vbInformation, "Chunked File Test"
+    
+    On Error Resume Next
+    Workbooks.Open testFile
+    If Err.Number <> 0 Then
+        MsgBox "Error opening file: " & Err.Description & vbCrLf & "Error Number: " & Err.Number, vbCritical
+        Err.Clear
+    Else
+        MsgBox "Successfully opened file!", vbInformation
+    End If
+    On Error GoTo 0
+End Sub
+
+' Test opening the single large file
+Public Sub TestOpenSingleFile()
+    Dim testFile As String
+    testFile = GetProjectRoot() & "\samples\output\Croatian Johns__Vocabulary__Human body-SINGLE.xlsx"
+    
+    MsgBox "Attempting to open: " & testFile & vbCrLf & _
+           "File exists: " & (Dir(testFile) <> ""), vbInformation, "Single File Test"
+    
+    On Error Resume Next
+    Workbooks.Open testFile
+    If Err.Number <> 0 Then
+        MsgBox "Error opening file: " & Err.Description & vbCrLf & "Error Number: " & Err.Number, vbCritical
+        Err.Clear
+    Else
+        MsgBox "Successfully opened file!", vbInformation
+    End If
+    On Error GoTo 0
+End Sub
+
+' Test the actual ImportFromAnki function
+Public Sub TestImportFromAnki()
+    ' This will open the file picker for you to select your new file
+    ImportFromAnki
+End Sub
+
+' Helper function to safely get cell values
+Private Function GetCellValue(cell As Range) As String
+    If IsNull(cell.Value) Or IsEmpty(cell.Value) Or cell.Value = "" Then
+        GetCellValue = ""
+    Else
+        GetCellValue = Trim(CStr(cell.Value))
+    End If
+End Function
+
+' Debug function to test the command that would be run
+Public Sub TestCommand()
+    Dim ankiFile As String
+    Dim excelFile As String
+    Dim pythonPath As String
+    Dim scriptPath As String
+    Dim command As String
+    
+    ' Use the test file
+    ankiFile = GetProjectRoot() & "\samples\input\Croatian Johns__Vocabulary__Human body.txt"
+    excelFile = GetProjectRoot() & "\samples\output\Croatian Johns__Vocabulary__Human body-EXCEL.xlsx"
+    
+    pythonPath = GetPythonPath()
+    scriptPath = GetScriptPath()
+    
+    command = """" & pythonPath & """ """ & scriptPath & """ """ & """" & ankiFile & """" & " --excel --output """ & """" & excelFile & """"
+    
+    MsgBox "Command that would be run:" & vbCrLf & command & vbCrLf & vbCrLf & _
+           "Input file exists: " & (Dir(ankiFile) <> "") & vbCrLf & _
+           "Output file exists: " & (Dir(excelFile) <> ""), vbInformation, "Command Test"
+End Sub 

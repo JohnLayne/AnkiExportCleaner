@@ -1,0 +1,61 @@
+#separator:tab
+#html:true
+#guid column:1
+#notetype column:2
+#deck column:3
+#tags column:9
+w=ktB6:|@+	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(žr) ruka (ROO-kah)	Hand / arm				
+f_;7w_9GdS	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) nos (NOHS)	Nose				
+"h0:+_jC#Nv"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) jezik (YEH-zeek)	Tongue				
+rC{;,MKYsX	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) obraz (OH-brahs)	Cheek				
+sTq^ho``6@	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(žr) usna (OOS-nah)	Lip				
+tRtUJRUV_2	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) oko (OH-koh)	Eye				
+ilrA.9(%.S	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) uho (OO-ho)	Ear				
+l4[:+&S-?Z	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) lice (LEE-tseh)	Face				
+F<EA_~zy(k	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(žr) brada (BRAH-dah)	Chin / beard				
+f:Dz>Q1(YX	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(žr/pl) usta (OOS-tah)	Mouth				
+"EWFma9t-#U"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) trbuh (TER-booh)	Abdomen / belly				
+xJs&`=TNUe	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) prsni koš (PRS-nee kosh)	Chest / rib cage				
+ou3@1yDqvb	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) vrat (VRAHT)	Neck				
+H8776AJeUb	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) leđa (LEH-jah)	Back				
+DD*{hGKlU:	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) kuk (KOOK)	Hip				
+Ktmgcnc~IB	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) rame (RAH-meh)	Shoulder				
+I^{v42@&|(	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) lakat (LAH-kaht)	Elbow				
+"uqw9T>V#mY"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) zapešće (ZAH-pesh-chyeh)	Wrist				
+K^zG*;|D!`	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) dlan (DLAHN)	Palm				
+h2z%L?k}KO	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) prst (PRST)	Finger				
+"q=78#5!kD~"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) nokat (NOH-kaht)	Fingernail				
+"H^JTu%#Zsw"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) noga (NOH-gah)	Leg				
+jhte1MG$NA	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) koljeno (KOH-lyeh-noh)	Knee				
+iZ@c]4LqP9	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) gležanj (GLEH-zhahn)	Ankle				
+Hws_{gM7nY	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) stopalo (STOH-pah-loh)	Foot				
+y(fAW|=*4^	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) nožni prst (NOHZH-nee prst)	Toe				
+d5,U(8&C.t	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) srce (SR-tseh)	Heart				
+NI2&{g{EGN	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) pluća (PLOO-chah)	Lungs				
+vxI!-jl]yS	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) želudac (ZHEH-loo-dahts)	Stomach				
+"N,tJID#![d"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) jetra (YEH-trah)	Liver				
+sEOEp3C2>M	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) bubreg (BOO-breg)	Kidney				
+"d#]=#JMB{c"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) mozak (MOH-zahk)	Brain				
+J]tY*G.U_c	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) crijevo (TSREE-yeh-voh)	Intestine / bowel				
+A6^g{/hOCG	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) mjehur (MYEH-hoor)	Bladder				
+qJ9|&acrEb	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) koža (KOH-zhah)	Skin				
+"vE`Jf$(K#{"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) krv (KRV)	Blood				
+QS+@_rQiy}	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) kost (KOHST)	Bone				
+"kT#Mx7(mmO"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) mišić (MEE-sheech)	Muscle				
+r6t&GS=$HA	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) živac (ZHEE-vahts)	Nerve				
+KiF>AS8rS~	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) vid (VEED)	Vision				
+Fpd[%}Hg;S	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) sluh (SLOOH)	Hearing				
+d^~yE*T,7x	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) njuh (NYOOH) 	Smell 				
+r-c:7:5dmz	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) okus (OH-koos)	Taste 				
+"d#Y%%3MvRP"	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) dodir (DOH-deer)	Touch				
+JF5(/OEWSE	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) spolni organ (SPOHL-nee or-gahn)	Sex organ				
+KSnpf22$C6	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) penis (PEH-nees)	Penis				
+F,q-+hC]wA	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) testis (TEHS-tees)	Testicle				
+L/}3R2kloY	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) mošnja (MOH-shnyah)	Scrotum				
+qaWtUUCIAj	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(žr) vagina (vah-GEE-nah)	Vagina				
+lu(LO;B~q	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(žr) maternica (MAH-tehr-nee-tsah)	Uterus				
+xg[${d;3k.	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(žr) jajnik (YAI-neek)	Ovary				
+hx>8.3}FKV	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) jajovod (YAI-yoh-vohd)	Fallopian tube				
+MqPPSV$fu5	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) dojka (DOY-kah)	Breast				
+C0QONEX%Hx	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) zub (ZOOB)	Tooth				
+i7m.z&,;/S	JohnsLanguageNote	Croatian Johns::Vocabulary::Human body	(sr) zubi (ZOO-bee)	Teeth				

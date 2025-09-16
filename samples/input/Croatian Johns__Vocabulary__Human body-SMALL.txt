@@ -1,0 +1,16 @@
+#separator:tab
+#html:true
+#guid column:1
+#notetype column:2
+#deck column:3
+#tags column:9
+lS{Ikwx_i|	Basic (and reversed card)+	Basic Hrvatski	arm	ruka				body things,
+idVM?4;X(2	Basic (and reversed card)+	Basic Hrvatski	body	tijelo				body things,
+dmU<Lu3WCA	Basic (and reversed card)+	Basic Hrvatski	chest	prsa				body things,
+DXLr4%[v[Q	Basic (and reversed card)+	Basic Hrvatski	chin	brada				body things,
+M71VVe;qv?	Basic (and reversed card)+	Basic Hrvatski	ear	uho				body things,
+I90F[8YB$o	Basic (and reversed card)+	Basic Hrvatski	eye	oko, oči				body things,
+G,N35m~]*H	Basic (and reversed card)+	Basic Hrvatski	face	lice				body things,
+l=3`v.F<~o	Basic (and reversed card)+	Basic Hrvatski	finger	prst				body things,
+Iq.YU+sHok	Basic (and reversed card)+	Basic Hrvatski	hand	dlan				body things,
+E-tksOnD/+	Basic (and reversed card)+	Basic Hrvatski	head	glava				body things,

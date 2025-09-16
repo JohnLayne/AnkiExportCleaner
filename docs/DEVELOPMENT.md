@@ -6,7 +6,11 @@
 - **Core Python Script**: `anki_excel_tool.py` with HTML cleaning and Excel export
 - **Excel Integration**: Custom ribbon with import/export buttons in `AnkiTool_Exporter.xlsm`
 - **File Processing**: UTF-8 encoding, column preservation, audio reference handling
-- **Testing**: Fully tested with real Anki exports, confirmed working
+- **Field Structure Support**: Handles both HTML content (Croatian_Spices) and plain text (Human Body) files
+- **Audio Field Flexibility**: Supports files with and without audio references
+- **Correct Field Mapping**: Fixed round-trip import/export with proper Anki field structure (9-column format)
+- **Command Line Integration**: Fixed VBA command execution with proper file path quoting
+- **Testing**: Fully tested with real Anki exports, confirmed working with multiple file types
 - **Production Ready**: Hardcoded paths optimized for real-world usage
 - **Manual Installation Support**: `complete_vba_code.txt` provides source code for custom Excel integration
 
@@ -128,8 +132,12 @@ Users can modify paths in `complete_vba_code.txt`:
 - [x] VBA integration with custom ribbon
 - [x] UTF-8 encoding throughout
 - [x] Audio reference preservation
+- [x] Field structure support for different Anki export formats
+- [x] Audio field flexibility (optional audio references)
+- [x] Correct field mapping for round-trip import/export
+- [x] Fixed VBA command execution with proper file path quoting
 - [x] Production-optimized hardcoded paths
-- [x] Complete testing with real Anki exports
+- [x] Complete testing with real Anki exports (multiple file types)
 - [x] Documentation updated
 - [x] Manual VBA installation support
 - [x] Organized sample file structure

@@ -74,18 +74,25 @@ class AnkiRecord:
     
     def to_output_row(self) -> List[str]:
         """Convert record to output row format."""
-        base_fields = [
+        # Match the original Anki structure: GUID, Note Type, Deck, Croatian, English, Audio, Field7, Field8, Tags
+        output_fields = [
             self.guid,
             self.note_type,
             self.deck,
             self.croatian,
             self.english,
-            self.audio
+            self.audio,  # Column 6: Audio
+            '',          # Column 7: Empty
+            '',          # Column 8: Empty
+            ''           # Column 9: Tags (will be filled from remaining_fields)
         ]
-        # Ensure we have enough fields for output
-        output_fields = base_fields + self.remaining_fields
-        while len(output_fields) < MIN_OUTPUT_FIELDS:
-            output_fields.append('')
+        
+        # Put remaining fields in the tags column (column 9)
+        if self.remaining_fields:
+            # Join remaining fields with commas for tags
+            tags = ','.join([str(field).strip() for field in self.remaining_fields if str(field).strip()])
+            output_fields[8] = tags
+        
         return [str(field).replace('\n', ' ') for field in output_fields]
 
 
@@ -155,6 +162,7 @@ class AnkiCleaner:
         
         return bool(GUID_PATTERN.match(line))
     
+    
     def process_record(self, record_text: str) -> Optional[AnkiRecord]:
         """Process a single record and return an AnkiRecord object."""
         try:
@@ -184,8 +192,8 @@ class AnkiCleaner:
             # Get remaining fields
             remaining_fields = fields[AUDIO_INDEX + 1:] if len(fields) > AUDIO_INDEX + 1 else []
             
-            # Validate essential data
-            if not all([guid, croatian, english, audio]):
+            # Validate essential data (audio is optional)
+            if not all([guid, croatian, english]):
                 print(f"⚠️  Skipping incomplete record: GUID={guid!r}, Croatian={croatian!r}, English={english!r}, Audio={audio!r}", file=sys.stderr)
                 return None
             
@@ -376,6 +384,7 @@ class AnkiCleaner:
         except Exception as e:
             print(f"❌ Error exporting to Excel: {e}", file=sys.stderr)
             return False
+    
     
     def run(self) -> bool:
         """Main execution method."""
